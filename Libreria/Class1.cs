@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Libreria
 {
-    public class Avion
+    public class CAvion
     {
         string ID;
         double ox;
@@ -16,7 +16,8 @@ namespace Libreria
         double velocidad;
         double px;
         double py;
-        public Avion(string id, double ox, double oy, double dx, double dy, double velocidad, double px, double py)
+        
+        public CAvion(string id, double ox, double oy, double dx, double dy, double velocidad, double px, double py)
         {
             this.ID = id;
             this.ox = ox;
@@ -28,8 +29,16 @@ namespace Libreria
             this.py = py;
         }
 
-        
+        public Sector(string identificador, int capacidad, double x, double y, double ancho, double alto)
+        {
 
+            string indentificador;
+
+
+
+
+
+        }
 
     }
 }
