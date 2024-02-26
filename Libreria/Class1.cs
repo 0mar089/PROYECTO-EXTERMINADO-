@@ -29,16 +29,5 @@ namespace Libreria
             this.py = py;
         }
 
-        public Sector(string identificador, int capacidad, double x, double y, double ancho, double alto)
-        {
-
-            string indentificador;
-
-
-
-
-
-        }
-
     }
 }

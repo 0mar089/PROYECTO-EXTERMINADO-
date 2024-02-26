@@ -5,6 +5,10 @@ VisualStudioVersion = 17.9.34607.119
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Libreria", "Libreria\Libreria.csproj", "{1FEDB02C-41AE-4B09-8D79-F0C1BED53A32}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Sector", "Sector\Sector.csproj", "{183D1815-6C82-45E6-B4FC-67907F857320}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Menú", "Menú\Menú.csproj", "{ACA6CD4A-0B61-4E88-813B-BCFA897405AF}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -15,6 +19,14 @@ Global
 		{1FEDB02C-41AE-4B09-8D79-F0C1BED53A32}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{1FEDB02C-41AE-4B09-8D79-F0C1BED53A32}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{1FEDB02C-41AE-4B09-8D79-F0C1BED53A32}.Release|Any CPU.Build.0 = Release|Any CPU
+		{183D1815-6C82-45E6-B4FC-67907F857320}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{183D1815-6C82-45E6-B4FC-67907F857320}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{183D1815-6C82-45E6-B4FC-67907F857320}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{183D1815-6C82-45E6-B4FC-67907F857320}.Release|Any CPU.Build.0 = Release|Any CPU
+		{ACA6CD4A-0B61-4E88-813B-BCFA897405AF}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{ACA6CD4A-0B61-4E88-813B-BCFA897405AF}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{ACA6CD4A-0B61-4E88-813B-BCFA897405AF}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{ACA6CD4A-0B61-4E88-813B-BCFA897405AF}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
