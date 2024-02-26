@@ -21,5 +21,7 @@ namespace Sector
             this.dx = dx;
             this.dy = dy;
         }
+
+
     }
 }
