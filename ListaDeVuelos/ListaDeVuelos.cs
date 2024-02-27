@@ -4,13 +4,12 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Avion;
-using S
 namespace ListaDeVuelos
 {
     public class CListaDeVuelos
     {
         const int MAX_AVIONES = 5;
-        CAvion[] vuelos;
+        public CAvion[] vuelos;
 
         public CListaDeVuelos()
         {
@@ -91,13 +90,7 @@ namespace ListaDeVuelos
             }
         }
 
-        public double CalculoSector(CListaDeVuelos lista, CSector sector)
-        {
-            for(int i = 0; i<lista.vuelos.Length; i++)
-            {
-                if (<lista.vuelos[i].GetPosition_X())
-            }
-        }
+
 
 
 

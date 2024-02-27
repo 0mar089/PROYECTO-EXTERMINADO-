@@ -118,6 +118,30 @@ namespace Sector
 
         }
 
+        public double CalculoSector(CListaDeVuelos lista, CSector sector)
+        {
+            double porcentaje;
+            double contador = 0;
+            for (int i = 0; i < lista.vuelos.Length; i++)
+            {
+                if ((sector.Get_Posrec_x() < lista.vuelos[i].GetPosition_X()  && lista.vuelos[i].GetPosition_X() < sector.Get_Posrec_x() + sector.Get_Anchorec()) && (sector.Get_Posrec_y() < lista.vuelos[i].GetPosition_Y() && lista.vuelos[i].GetPosition_Y()< sector.Get_Posrec_y() + sector.Get_Anchorec()))
+                {
+                    contador++;
+                }
+                
+            }
+
+            if(contador != 0)
+            {
+                porcentaje = (contador / sector.Get_Capmax()) * 100;
+                return porcentaje;
+            }
+            else
+            {
+                return 0;
+            }
+            
+        }
 
         public void Imprimir_Menú_Sector() 
         {

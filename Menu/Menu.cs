@@ -41,7 +41,8 @@ namespace Menú
                         sector.Imprimir_Menú_Sector();
                         break;
                     case "3":
-
+                        double porcentaje = sector.CalculoSector(vuelos, sector);
+                        Console.WriteLine("El porcentaje de aviones en el sector es: {0}% ", porcentaje);
                         Console.WriteLine();
                         break;
                     case "4":
