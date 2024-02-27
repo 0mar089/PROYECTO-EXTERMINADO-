@@ -4,8 +4,9 @@ using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using Libreria;
+using Avion;
 using Sector;
+using ListaDeVuelos;
 
 namespace Menú
 {
@@ -13,6 +14,8 @@ namespace Menú
     {
         static void Main(string[] args)
         {
+            CListaDeVuelos vuelos = new CListaDeVuelos();
+
             while (true)
             {
                 Console.WriteLine("Escoje una opción:");

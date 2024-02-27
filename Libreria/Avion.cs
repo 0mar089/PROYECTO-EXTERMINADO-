@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Libreria
+namespace Avion
 {
     public class CAvion //ATRIBUTOS
     {
@@ -32,9 +32,6 @@ namespace Libreria
 
     }
 }
-
-
-
 
 /*
  
