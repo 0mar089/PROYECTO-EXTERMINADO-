@@ -1,4 +1,4 @@
-<Project Sdk="Microsoft.NET.Sdk">
+﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
     <TargetFramework>net7.0</TargetFramework>
@@ -7,7 +7,8 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\Libreria\Avion.csproj" />
+    <ProjectReference Include="..\Avion\Avion.csproj" />
+    <ProjectReference Include="..\ListaDeVuelos\ListaDeVuelos.csproj" />
   </ItemGroup>
 
 </Project>

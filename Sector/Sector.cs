@@ -3,27 +3,17 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using Avion;
+using Sector;
+using ListaDeVuelos;
 
 namespace Sector
 {
-    public class Sector
+    public class CSector
     {
         string identificador_sector;
         int capacidad_max;
         double posicion_rectangulo_x, posicion_rectangulo_y, ancho_rectangulo, alto_rectangulo;
 
-        // Constructor del Sector
-
-        Sector(string ID_local, int capacity_local, double posicion_rectangulo_x_local, double posicion_rectangulo_y_local, double ancho_local, double alto_local)
-        {
-            this.identificador_sector = ID_local;
-            this.capacidad_max = capacity_local;
-            this.posicion_rectangulo_x = posicion_rectangulo_x_local;
-            this.posicion_rectangulo_y = posicion_rectangulo_y_local;
-            this.ancho_rectangulo = ancho_local;
-            this.alto_rectangulo = alto_local;
-        }
 
         // Setters
 
@@ -97,18 +87,17 @@ namespace Sector
             {
                 StreamReader fichero = new StreamReader(nombre_fichero);
                 string linea = fichero.ReadLine();
-                int contador = 0;
 
                 while (linea != null)
                 {
                     string[] trozos = linea.Split(" , ");
 
-                    Set_ID(trozos[1]);
-                    Set_Capmax(Convert.ToInt32(trozos[2]));
-                    Set_Posrec_x(Convert.ToDouble(trozos[3]));  
-                    Set_Posrec_y(Convert.ToDouble(trozos[4]));
-                    Set_Anchorec(Convert.ToDouble(trozos[5]));
-                    Set_Altorec(Convert.ToDouble(trozos[6]));
+                    this.Set_ID(trozos[0]);
+                    this.Set_Capmax(Convert.ToInt32(trozos[1]));
+                    this.Set_Posrec_x(Convert.ToDouble(trozos[2]));  
+                    this.Set_Posrec_y(Convert.ToDouble(trozos[3]));
+                    this.Set_Anchorec(Convert.ToDouble(trozos[4]));
+                    this.Set_Altorec(Convert.ToDouble(trozos[5]));
 
                     linea = fichero.ReadLine();
                 }
@@ -129,5 +118,23 @@ namespace Sector
 
         }
 
+
+        public void Imprimir_Menú_Sector() 
+        {
+            Console.WriteLine("----------------------------------------------");
+            Console.WriteLine(" El ID es {0}", this.Get_ID());
+            Console.WriteLine(" La capacidad máxima es es {0}", this.Get_Capmax());
+            Console.WriteLine(" La posición del sector (referencia pos esquina superior derecha) es {0}, {1} ", this.Get_Posrec_x(), this.Get_Posrec_y());
+            Console.WriteLine(" Las dimensiones del sector {0}, {1}", this.Get_Anchorec(), this.Get_Altorec());
+            Console.WriteLine("----------------------------------------------");
+
+        }
+
+
+
+
     }
+
+
+
 }
