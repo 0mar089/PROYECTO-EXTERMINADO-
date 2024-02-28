@@ -129,17 +129,11 @@ namespace Sector
                     contador++;
                 }
                 
+            
             }
-
-            if(contador != 0)
-            {
-                porcentaje = (contador / sector.Get_Capmax()) * 100;
-                return porcentaje;
-            }
-            else
-            {
-                return 0;
-            }
+            porcentaje = (contador / sector.Get_Capmax()) * 100;
+            return porcentaje;
+            
             
         }
 

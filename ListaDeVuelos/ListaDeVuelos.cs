@@ -81,7 +81,7 @@ namespace ListaDeVuelos
                 double Avance_y = (lista.vuelos[i].GetSpeed()/60) * tiempo * seno;
 
                 double nueva_posicion_x = Avance_x + lista.vuelos[i].GetOrigen_X();
-                double nueva_posicion_y = Avance_y + lista.vuelos[i].GetOrigen_Y();
+                double nueva_posicion_y = -Avance_y + lista.vuelos[i].GetOrigen_Y();
 
 
                 lista.vuelos[i].SetPosition_X(nueva_posicion_x);

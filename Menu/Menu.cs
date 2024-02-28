@@ -42,15 +42,33 @@ namespace Menú
                         break;
                     case "3":
                         double porcentaje = sector.CalculoSector(vuelos, sector);
+                        if (porcentaje > 100)
+                        {
+                            Console.WriteLine("Hay una sobrecarga en el Sector");
+                        }
                         Console.WriteLine("El porcentaje de aviones en el sector es: {0}% ", porcentaje);
                         Console.WriteLine();
                         break;
                     case "4":
 
-                        Console.WriteLine("Escribe el tiempo de la simulación: ");
-                        double tiempo = Convert.ToDouble(Console.ReadLine());
-                        vuelos.Calculo(vuelos, tiempo);
-                        vuelos.Imprimir_Menú_Aviones(vuelos);
+
+                        while (true)
+                        {
+                            try
+                            {
+                                Console.WriteLine("Escribe el tiempo de la simulación: ");
+                                double tiempo = Convert.ToDouble(Console.ReadLine());
+                                vuelos.Calculo(vuelos, tiempo);
+                                vuelos.Imprimir_Menú_Aviones(vuelos);
+                                break;
+                            }
+                            catch (FormatException)
+                            {
+                                continue;
+                            }
+                        }
+      
+                        
                         break;
                     default:
                         Console.WriteLine("Error en el codigo");
