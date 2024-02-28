@@ -6,9 +6,4 @@
     <Nullable>enable</Nullable>
   </PropertyGroup>
 
-  <ItemGroup>
-    <ProjectReference Include="..\Avion\Avion.csproj" />
-    <ProjectReference Include="..\ListaDeVuelos\ListaDeVuelos.csproj" />
-  </ItemGroup>
-
 </Project>
