@@ -5,6 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using Sector;
 using ListaDeVuelos;
+using Avion;
 
 namespace Sector
 {
@@ -122,9 +123,10 @@ namespace Sector
         {
             double porcentaje;
             double contador = 0;
-            for (int i = 0; i < lista.vuelos.Length; i++)
+            CAvion[] vuelos = lista.GetLista();
+            for (int i = 0; i < lista.GetLista().Length; i++)
             {
-                if ((sector.Get_Posrec_x() < lista.vuelos[i].GetPosition_X() && lista.vuelos[i].GetPosition_X() < sector.Get_Posrec_x() + sector.Get_Anchorec()) && (sector.Get_Posrec_y() < lista.vuelos[i].GetPosition_Y() && lista.vuelos[i].GetPosition_Y() < sector.Get_Posrec_y() + sector.Get_Anchorec()))
+                if ((sector.Get_Posrec_x() < vuelos[i].GetPosition_X() && vuelos[i].GetPosition_X() < sector.Get_Posrec_x() + sector.Get_Anchorec()) && (sector.Get_Posrec_y() < vuelos[i].GetPosition_Y() && vuelos[i].GetPosition_Y() < sector.Get_Posrec_y() + sector.Get_Anchorec()))
                 {
                     contador++;
                 }

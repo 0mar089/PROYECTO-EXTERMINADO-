@@ -9,11 +9,16 @@ namespace ListaDeVuelos
     public class CListaDeVuelos
     {
         const int MAX_AVIONES = 5;
-        public CAvion[] vuelos;
+        CAvion[] vuelos;
 
         public CListaDeVuelos()
         {
             this.vuelos = new CAvion[MAX_AVIONES];
+        }
+
+        public CAvion[] GetLista()
+        {
+            return (this.vuelos);
         }
 
         // CARGAR 
