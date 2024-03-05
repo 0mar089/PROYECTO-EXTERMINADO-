@@ -80,7 +80,7 @@ namespace Sector
             return this.alto_rectangulo;
         }
 
-        // Cargar y Guardar
+        // FUNCIÓN QUE CARGA LA LISTA DE DATOS DEL SECTOR DEL FICHERO
 
         public int CargarSectorAlConstructor(string nombre_fichero)
         {
@@ -119,6 +119,8 @@ namespace Sector
 
         }
 
+
+        // FUNCIÓN QUE CALCULA EL PORCENTAJE DE AVIONES EN EL SECTOR
         public double CalculoSector(CListaDeVuelos lista, CSector sector)
         {
             double porcentaje;
@@ -139,6 +141,7 @@ namespace Sector
 
         }
 
+        // FUNCIÓN QUE IMPRIME LA INFORMACIÓN DEL SECTOR
         public void Imprimir_Menú_Sector()
         {
             Console.WriteLine("----------------------------------------------");

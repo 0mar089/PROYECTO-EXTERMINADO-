@@ -21,7 +21,7 @@ namespace ListaDeVuelos
             return (this.vuelos);
         }
 
-        // CARGAR 
+        // FUNCIÓN PARA CARGAR LA LISTA DE VUELOS DEL FICHERO
         public int CargarVuelos(string nombre_fichero, CListaDeVuelos vuelos)
         {
             try
@@ -66,7 +66,7 @@ namespace ListaDeVuelos
 
         }
 
-        // Función para simular
+        // FUNCIÓN QUE CALCULA LA SIMULACION DE LOS AVIONES EN UN TIEMPO
 
         public void Calculo(CListaDeVuelos lista, double tiempo)
         {
@@ -95,10 +95,7 @@ namespace ListaDeVuelos
             }
         }
 
-
-
-
-
+        // FUNCIÓN QUE IMPRIME LA INFORMACIÓN DE LOS AVIONES
         public void Imprimir_Menú_Aviones(CListaDeVuelos lista)
         {
             int i;
