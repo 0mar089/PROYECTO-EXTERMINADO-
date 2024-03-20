@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Runtime.CompilerServices;
 using System.Text;
 using System.Threading.Tasks;
 using Avion;
@@ -62,6 +63,41 @@ namespace ListaDeVuelos
             catch (FormatException)
             {
                 return -2;
+            }
+
+        }
+
+
+        public  int GuardarFichero(string path)
+        {
+            try
+            {
+                StreamWriter fichero = new StreamWriter(path);
+                File.WriteAllText(path, string.Empty);
+
+                for (int i = 0; i < MAX_AVIONES; i++)
+                {
+                    fichero.WriteLine(this.vuelos[i].GetID(), this.vuelos[i].GetComp(), this.vuelos[i].GetOrigen_X(), this.vuelos[i].GetOrigen_Y(), this.vuelos[i].GetDestino_X(), this.vuelos[i].GetDestino_Y(), this.vuelos[i].GetID, this.vuelos[i].GetID, this.vuelos[i].GetID, this.vuelos[i].GetID);
+
+
+
+
+
+                    string identificador; //string 
+                    string compañía; //string
+                    double origen_x; //dos R
+                    double origen_y; //dos R
+                    double destino_x; //dos R
+                    double destino_y; //dos R
+                    double velocidad; // nudos x segundo
+                    double posición_x; //dos R
+                    double posición_y;
+                }
+                return 0;
+            }
+            catch (FileNotFoundException)
+            {
+                return -1;
             }
 
         }
