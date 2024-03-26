@@ -17,7 +17,7 @@ namespace Menú
             CListaDeVuelos vuelos = new CListaDeVuelos();
             CSector sector = new CSector();
 
-            int res = sector.CargarSectorAlConstructor("sector.txt");
+            int res = sector.CargarSector("sector.txt");
             int e = vuelos.CargarVuelos("aviones.txt", vuelos);
 
             if (e != 0 || res != 0)

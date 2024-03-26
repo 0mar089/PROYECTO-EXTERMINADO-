@@ -32,20 +32,11 @@
             menuStrip1 = new MenuStrip();
             hToolStripMenuItem = new ToolStripMenuItem();
             CargarFichero = new ToolStripMenuItem();
-            panel1 = new Panel();
-            pictureBox5 = new PictureBox();
-            pictureBox4 = new PictureBox();
-            pictureBox3 = new PictureBox();
-            pictureBox2 = new PictureBox();
-            pictureBox1 = new PictureBox();
             guardarFicheroToolStripMenuItem = new ToolStripMenuItem();
+            cargarSectorToolStripMenuItem = new ToolStripMenuItem();
+            panel1 = new Panel();
+            saveFileDialog1 = new SaveFileDialog();
             menuStrip1.SuspendLayout();
-            panel1.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)pictureBox5).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)pictureBox4).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)pictureBox3).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)pictureBox2).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)pictureBox1).BeginInit();
             SuspendLayout();
             // 
             // menuStrip1
@@ -61,7 +52,7 @@
             // 
             // hToolStripMenuItem
             // 
-            hToolStripMenuItem.DropDownItems.AddRange(new ToolStripItem[] { CargarFichero, guardarFicheroToolStripMenuItem });
+            hToolStripMenuItem.DropDownItems.AddRange(new ToolStripItem[] { CargarFichero, guardarFicheroToolStripMenuItem, cargarSectorToolStripMenuItem });
             hToolStripMenuItem.Name = "hToolStripMenuItem";
             hToolStripMenuItem.Size = new Size(60, 24);
             hToolStripMenuItem.Text = "Menú";
@@ -69,68 +60,31 @@
             // CargarFichero
             // 
             CargarFichero.Name = "CargarFichero";
-            CargarFichero.Size = new Size(237, 26);
-            CargarFichero.Text = "Cargar del Fichero";
+            CargarFichero.Size = new Size(310, 26);
+            CargarFichero.Text = "Cargar del Fichero los aviones";
             CargarFichero.Click += CargarFichero_Click;
-            // 
-            // panel1
-            // 
-            panel1.Controls.Add(pictureBox5);
-            panel1.Controls.Add(pictureBox4);
-            panel1.Controls.Add(pictureBox3);
-            panel1.Controls.Add(pictureBox2);
-            panel1.Controls.Add(pictureBox1);
-            panel1.Location = new Point(12, 31);
-            panel1.Name = "panel1";
-            panel1.Size = new Size(811, 444);
-            panel1.TabIndex = 1;
-            // 
-            // pictureBox5
-            // 
-            pictureBox5.Location = new Point(254, 165);
-            pictureBox5.Name = "pictureBox5";
-            pictureBox5.Size = new Size(125, 62);
-            pictureBox5.TabIndex = 4;
-            pictureBox5.TabStop = false;
-            // 
-            // pictureBox4
-            // 
-            pictureBox4.Location = new Point(72, 165);
-            pictureBox4.Name = "pictureBox4";
-            pictureBox4.Size = new Size(125, 62);
-            pictureBox4.TabIndex = 3;
-            pictureBox4.TabStop = false;
-            // 
-            // pictureBox3
-            // 
-            pictureBox3.Location = new Point(427, 69);
-            pictureBox3.Name = "pictureBox3";
-            pictureBox3.Size = new Size(125, 62);
-            pictureBox3.TabIndex = 2;
-            pictureBox3.TabStop = false;
-            // 
-            // pictureBox2
-            // 
-            pictureBox2.Location = new Point(254, 69);
-            pictureBox2.Name = "pictureBox2";
-            pictureBox2.Size = new Size(125, 62);
-            pictureBox2.TabIndex = 1;
-            pictureBox2.TabStop = false;
-            // 
-            // pictureBox1
-            // 
-            pictureBox1.Location = new Point(72, 69);
-            pictureBox1.Name = "pictureBox1";
-            pictureBox1.Size = new Size(125, 62);
-            pictureBox1.TabIndex = 0;
-            pictureBox1.TabStop = false;
             // 
             // guardarFicheroToolStripMenuItem
             // 
             guardarFicheroToolStripMenuItem.Name = "guardarFicheroToolStripMenuItem";
-            guardarFicheroToolStripMenuItem.Size = new Size(237, 26);
-            guardarFicheroToolStripMenuItem.Text = "Guardar en el  Fichero";
+            guardarFicheroToolStripMenuItem.Size = new Size(310, 26);
+            guardarFicheroToolStripMenuItem.Text = "Guardar los aviones en el Fichero";
             guardarFicheroToolStripMenuItem.Click += guardarFicheroToolStripMenuItem_Click;
+            // 
+            // cargarSectorToolStripMenuItem
+            // 
+            cargarSectorToolStripMenuItem.Name = "cargarSectorToolStripMenuItem";
+            cargarSectorToolStripMenuItem.Size = new Size(310, 26);
+            cargarSectorToolStripMenuItem.Text = "Cargar del Fichero el Sector";
+            cargarSectorToolStripMenuItem.Click += cargarSectorToolStripMenuItem_Click;
+            // 
+            // panel1
+            // 
+            panel1.Location = new Point(12, 31);
+            panel1.Name = "panel1";
+            panel1.Size = new Size(811, 444);
+            panel1.TabIndex = 1;
+            panel1.Paint += panel1_Paint;
             // 
             // Form1
             // 
@@ -145,12 +99,6 @@
             Load += Form1_Load;
             menuStrip1.ResumeLayout(false);
             menuStrip1.PerformLayout();
-            panel1.ResumeLayout(false);
-            ((System.ComponentModel.ISupportInitialize)pictureBox5).EndInit();
-            ((System.ComponentModel.ISupportInitialize)pictureBox4).EndInit();
-            ((System.ComponentModel.ISupportInitialize)pictureBox3).EndInit();
-            ((System.ComponentModel.ISupportInitialize)pictureBox2).EndInit();
-            ((System.ComponentModel.ISupportInitialize)pictureBox1).EndInit();
             ResumeLayout(false);
             PerformLayout();
         }
@@ -162,11 +110,8 @@
         private ToolStripMenuItem hToolStripMenuItem;
         private ToolStripMenuItem CargarFichero;
         private Panel panel1;
-        private PictureBox pictureBox5;
-        private PictureBox pictureBox4;
-        private PictureBox pictureBox3;
-        private PictureBox pictureBox2;
-        private PictureBox pictureBox1;
         private ToolStripMenuItem guardarFicheroToolStripMenuItem;
+        private SaveFileDialog saveFileDialog1;
+        private ToolStripMenuItem cargarSectorToolStripMenuItem;
     }
 }

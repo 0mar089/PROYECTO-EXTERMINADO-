@@ -45,7 +45,7 @@ namespace ListaDeVuelos
 
 
                     CAvion avion = new CAvion(identificador, compañía, origen_x, origen_y, destino_x, destino_y, velocidad, posición_x, posición_y);
-
+                    
                     vuelos.vuelos[i] = avion;
 
                     linea = fichero.ReadLine();
@@ -77,27 +77,17 @@ namespace ListaDeVuelos
 
                 for (int i = 0; i < MAX_AVIONES; i++)
                 {
-                    fichero.WriteLine(this.vuelos[i].GetID(), this.vuelos[i].GetComp(), this.vuelos[i].GetOrigen_X(), this.vuelos[i].GetOrigen_Y(), this.vuelos[i].GetDestino_X(), this.vuelos[i].GetDestino_Y(), this.vuelos[i].GetID, this.vuelos[i].GetID, this.vuelos[i].GetID, this.vuelos[i].GetID);
-
-
-
-
-
-                    string identificador; //string 
-                    string compañía; //string
-                    double origen_x; //dos R
-                    double origen_y; //dos R
-                    double destino_x; //dos R
-                    double destino_y; //dos R
-                    double velocidad; // nudos x segundo
-                    double posición_x; //dos R
-                    double posición_y;
+                    fichero.WriteLine("{0} - {1} - {2} - {3} - {4} - {5} - {6} - {7} - {8}", this.vuelos[i].GetID(), this.vuelos[i].GetComp(), this.vuelos[i].GetOrigen_X(), this.vuelos[i].GetOrigen_Y(), this.vuelos[i].GetDestino_X(), this.vuelos[i].GetDestino_Y(), this.vuelos[i].GetSpeed(), this.vuelos[i].GetPosition_X(), this.vuelos[i].GetPosition_Y());
                 }
                 return 0;
             }
             catch (FileNotFoundException)
             {
                 return -1;
+            }
+            catch (FormatException)
+            {
+                return -2;
             }
 
         }

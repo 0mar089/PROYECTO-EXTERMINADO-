@@ -14,57 +14,58 @@ namespace SimuladorForms
 {
     public partial class Form1 : Form
     {
-        PictureBox[] aircraft_vector;
+        PictureBox[] aircraft_vector = new PictureBox[5];
         const int MAX = 1000;
         CListaDeVuelos lista = new CListaDeVuelos();
-
+        CSector Sector = new CSector();
         CAvion[] vuelos;
 
 
         public Form1()
         {
             InitializeComponent();
-            ResetListaAviones();
-            CargarAviones();
+            //ResetListaAviones();
 
             vuelos = lista.GetLista();
-
         }
 
         private void Form1_Load(object sender, EventArgs e)
         {
-            
+
         }
 
 
-        private void ResetListaAviones()
+        /* private void ResetListaAviones()
+         {
+             aircraft_vector = new PictureBox[5];
+
+             for (int i = 0; i < 5; i++)
+             {
+                 aircraft_vector[i] = new PictureBox();
+                 aircraft_vector[i].ClientSize = new Size(20, 20);
+                 aircraft_vector[i].Location = new Point(Convert.ToInt32(vuelos[i].GetOrigen_X()), Convert.ToInt32(vuelos[i].GetOrigen_Y()));
+                 aircraft_vector[i].SizeMode = PictureBoxSizeMode.StretchImage;
+                 Bitmap image = new Bitmap("avion.png");
+                 aircraft_vector[i].Image = (Image)image;
+                 panel1.Controls.Add(aircraft_vector[i]);
+             }
+         }*/
+
+        public void CargarAviones()
         {
-            aircraft_vector = new PictureBox[5];
-      
+
             for (int i = 0; i < 5; i++)
-            {
-                aircraft_vector[i] = new PictureBox();
-                aircraft_vector[i].ClientSize = new Size(20, 20);
-                aircraft_vector[i].Location = new Point(Convert.ToInt32(vuelos[i].GetOrigen_X()), Convert.ToInt32(vuelos[i].GetOrigen_Y()));
-                aircraft_vector[i].SizeMode = PictureBoxSizeMode.StretchImage;
-                Bitmap image = new Bitmap("avion.png");
-                aircraft_vector[i].Image = (Image)image;
-                panel1.Controls.Add(aircraft_vector[i]);
-            }
-        }
-
-        private void CargarAviones()
-        {
-            
-            foreach (CAvion avion in vuelos)
             {
                 PictureBox aircraft = new PictureBox();
                 aircraft.ClientSize = new Size(20, 20);
-                aircraft.Location = new Point(Convert.ToInt32(avion.GetOrigen_X()), Convert.ToInt32(avion.GetOrigen_Y()));
+                aircraft.Location = new Point(Convert.ToInt32(vuelos[i].GetOrigen_X()), Convert.ToInt32(vuelos[i].GetOrigen_Y()));
                 aircraft.SizeMode = PictureBoxSizeMode.StretchImage;
                 Bitmap image = new Bitmap("avion.png");
+                aircraft.Width = 50;
+                aircraft.Height = 50;
                 aircraft.Image = (Image)image;
                 panel1.Controls.Add(aircraft);
+                aircraft_vector[i] = aircraft;
             }
         }
 
@@ -90,6 +91,7 @@ namespace SimuladorForms
                 else
                 {
                     MessageBox.Show("Fichero Cargado");
+                    CargarAviones();
                 }
             }
         }
@@ -101,7 +103,66 @@ namespace SimuladorForms
 
         private void guardarFicheroToolStripMenuItem_Click(object sender, EventArgs e)
         {
+            if (saveFileDialog1.ShowDialog() == DialogResult.OK)
+            {
+                string filename = openFileDialog1.FileName;
+                MessageBox.Show(filename);
+                int err = lista.GuardarFichero(filename);
+                if (err == 0)
+                {
+                    MessageBox.Show("Fichero Guardado");
+                }
+                else if (err == -2)
+                {
+                    MessageBox.Show("Formato inesperado");
+                }
+                else
+                {
+                    MessageBox.Show("Fichero no encontrado");
+                }
+            }
+        }
 
+        private void cargarSectorToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            if (openFileDialog1.ShowDialog() == DialogResult.OK)
+            {
+                string filename = openFileDialog1.FileName;
+
+                int p = Sector.CargarSector(filename);
+
+                if (p == -1)
+                {
+                    MessageBox.Show("Fichero no se ha encontrado");
+                }
+
+                else if (p == -2)
+                {
+                    MessageBox.Show("Formato inesperado");
+                }
+
+                else
+                {
+                    MessageBox.Show("Fichero Cargado");
+                    panel1.Invalidate();
+                }
+            }
+        }
+
+        private void panel1_Paint(object sender, PaintEventArgs e)
+        {
+            System.Drawing.Graphics graphics = e.Graphics;
+            //Colour to draw the rectangle
+            Pen myPen = new Pen(Color.Green);
+            // Points that define the rectangle
+            Point[] polygonPoints = new Point[4];
+            polygonPoints[0] = new Point(Convert.ToInt32(Sector.Get_Posrec_x()), Convert.ToInt32(Sector.Get_Posrec_y()));
+            polygonPoints[3] = new Point(Convert.ToInt32(Sector.Get_Posrec_x()) + Convert.ToInt32(Sector.Get_Anchorec()), Convert.ToInt32(Sector.Get_Posrec_y()));
+            polygonPoints[1] = new Point(Convert.ToInt32(Sector.Get_Posrec_x()), Convert.ToInt32(Sector.Get_Posrec_y()) + Convert.ToInt32(Sector.Get_Altorec()));
+            polygonPoints[2] = new Point(Convert.ToInt32(Sector.Get_Posrec_x()) + Convert.ToInt32(Sector.Get_Anchorec()), Convert.ToInt32(Sector.Get_Posrec_y()) + Convert.ToInt32(Sector.Get_Altorec()));
+            //Draw the rectangle
+            graphics.DrawPolygon(myPen, polygonPoints);
+            myPen.Dispose();
         }
     }
 }

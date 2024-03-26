@@ -82,7 +82,7 @@ namespace Sector
 
         // FUNCIÓN QUE CARGA LA LISTA DE DATOS DEL SECTOR DEL FICHERO
 
-        public int CargarSectorAlConstructor(string nombre_fichero)
+        public int CargarSector(string nombre_fichero)
         {
             try
             {
