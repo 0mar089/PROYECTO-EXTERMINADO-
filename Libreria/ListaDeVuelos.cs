@@ -96,9 +96,7 @@ namespace ListaDeVuelos
 
         public void Calculo(CListaDeVuelos lista, double tiempo)
         {
-            int i;
-
-            for (i = 0; i < lista.vuelos.Length; i++)
+            for (int i = 0; i < lista.vuelos.Length; i++)
             {
 
                 double cateto_opuesto = Math.Abs(((lista.vuelos[i].GetDestino_Y()) - (lista.vuelos[i].GetOrigen_Y())));

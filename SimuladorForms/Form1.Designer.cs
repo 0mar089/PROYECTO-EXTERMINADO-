@@ -28,14 +28,20 @@
         /// </summary>
         private void InitializeComponent()
         {
+            components = new System.ComponentModel.Container();
             openFileDialog1 = new OpenFileDialog();
             menuStrip1 = new MenuStrip();
             hToolStripMenuItem = new ToolStripMenuItem();
             CargarFichero = new ToolStripMenuItem();
             guardarFicheroToolStripMenuItem = new ToolStripMenuItem();
             cargarSectorToolStripMenuItem = new ToolStripMenuItem();
+            listarVuelosToolStripMenuItem = new ToolStripMenuItem();
             panel1 = new Panel();
             saveFileDialog1 = new SaveFileDialog();
+            button1 = new Button();
+            textBox1 = new TextBox();
+            label1 = new Label();
+            timer1 = new System.Windows.Forms.Timer(components);
             menuStrip1.SuspendLayout();
             SuspendLayout();
             // 
@@ -52,7 +58,7 @@
             // 
             // hToolStripMenuItem
             // 
-            hToolStripMenuItem.DropDownItems.AddRange(new ToolStripItem[] { CargarFichero, guardarFicheroToolStripMenuItem, cargarSectorToolStripMenuItem });
+            hToolStripMenuItem.DropDownItems.AddRange(new ToolStripItem[] { CargarFichero, guardarFicheroToolStripMenuItem, cargarSectorToolStripMenuItem, listarVuelosToolStripMenuItem });
             hToolStripMenuItem.Name = "hToolStripMenuItem";
             hToolStripMenuItem.Size = new Size(60, 24);
             hToolStripMenuItem.Text = "Menú";
@@ -78,6 +84,13 @@
             cargarSectorToolStripMenuItem.Text = "Cargar del Fichero el Sector";
             cargarSectorToolStripMenuItem.Click += cargarSectorToolStripMenuItem_Click;
             // 
+            // listarVuelosToolStripMenuItem
+            // 
+            listarVuelosToolStripMenuItem.Name = "listarVuelosToolStripMenuItem";
+            listarVuelosToolStripMenuItem.Size = new Size(310, 26);
+            listarVuelosToolStripMenuItem.Text = "Listar Vuelos";
+            listarVuelosToolStripMenuItem.Click += listarVuelosToolStripMenuItem_Click;
+            // 
             // panel1
             // 
             panel1.Location = new Point(12, 31);
@@ -86,11 +99,44 @@
             panel1.TabIndex = 1;
             panel1.Paint += panel1_Paint;
             // 
+            // button1
+            // 
+            button1.Location = new Point(880, 118);
+            button1.Name = "button1";
+            button1.Size = new Size(167, 60);
+            button1.TabIndex = 2;
+            button1.Text = "SIMULAR";
+            button1.UseVisualStyleBackColor = true;
+            button1.Click += button1_Click;
+            // 
+            // textBox1
+            // 
+            textBox1.Location = new Point(880, 317);
+            textBox1.Name = "textBox1";
+            textBox1.Size = new Size(167, 27);
+            textBox1.TabIndex = 3;
+            // 
+            // label1
+            // 
+            label1.AutoSize = true;
+            label1.Location = new Point(891, 278);
+            label1.Name = "label1";
+            label1.Size = new Size(147, 20);
+            label1.TabIndex = 4;
+            label1.Text = "Tiempo en segundos";
+            // 
+            // timer1
+            // 
+            timer1.Tick += timer1_Tick;
+            // 
             // Form1
             // 
             AutoScaleDimensions = new SizeF(8F, 20F);
             AutoScaleMode = AutoScaleMode.Font;
             ClientSize = new Size(1130, 523);
+            Controls.Add(label1);
+            Controls.Add(textBox1);
+            Controls.Add(button1);
             Controls.Add(panel1);
             Controls.Add(menuStrip1);
             MainMenuStrip = menuStrip1;
@@ -113,5 +159,10 @@
         private ToolStripMenuItem guardarFicheroToolStripMenuItem;
         private SaveFileDialog saveFileDialog1;
         private ToolStripMenuItem cargarSectorToolStripMenuItem;
+        private ToolStripMenuItem listarVuelosToolStripMenuItem;
+        private Button button1;
+        private TextBox textBox1;
+        private Label label1;
+        private System.Windows.Forms.Timer timer1;
     }
 }
