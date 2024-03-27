@@ -51,7 +51,8 @@
             menuStrip1.Items.AddRange(new ToolStripItem[] { hToolStripMenuItem });
             menuStrip1.Location = new Point(0, 0);
             menuStrip1.Name = "menuStrip1";
-            menuStrip1.Size = new Size(1130, 28);
+            menuStrip1.Padding = new Padding(5, 2, 0, 2);
+            menuStrip1.Size = new Size(989, 24);
             menuStrip1.TabIndex = 0;
             menuStrip1.Text = "menuStrip1";
             menuStrip1.ItemClicked += menuStrip1_ItemClicked;
@@ -60,50 +61,52 @@
             // 
             hToolStripMenuItem.DropDownItems.AddRange(new ToolStripItem[] { CargarFichero, guardarFicheroToolStripMenuItem, cargarSectorToolStripMenuItem, listarVuelosToolStripMenuItem });
             hToolStripMenuItem.Name = "hToolStripMenuItem";
-            hToolStripMenuItem.Size = new Size(60, 24);
+            hToolStripMenuItem.Size = new Size(50, 20);
             hToolStripMenuItem.Text = "Menú";
             // 
             // CargarFichero
             // 
             CargarFichero.Name = "CargarFichero";
-            CargarFichero.Size = new Size(310, 26);
+            CargarFichero.Size = new Size(247, 22);
             CargarFichero.Text = "Cargar del Fichero los aviones";
             CargarFichero.Click += CargarFichero_Click;
             // 
             // guardarFicheroToolStripMenuItem
             // 
             guardarFicheroToolStripMenuItem.Name = "guardarFicheroToolStripMenuItem";
-            guardarFicheroToolStripMenuItem.Size = new Size(310, 26);
+            guardarFicheroToolStripMenuItem.Size = new Size(247, 22);
             guardarFicheroToolStripMenuItem.Text = "Guardar los aviones en el Fichero";
             guardarFicheroToolStripMenuItem.Click += guardarFicheroToolStripMenuItem_Click;
             // 
             // cargarSectorToolStripMenuItem
             // 
             cargarSectorToolStripMenuItem.Name = "cargarSectorToolStripMenuItem";
-            cargarSectorToolStripMenuItem.Size = new Size(310, 26);
+            cargarSectorToolStripMenuItem.Size = new Size(247, 22);
             cargarSectorToolStripMenuItem.Text = "Cargar del Fichero el Sector";
             cargarSectorToolStripMenuItem.Click += cargarSectorToolStripMenuItem_Click;
             // 
             // listarVuelosToolStripMenuItem
             // 
             listarVuelosToolStripMenuItem.Name = "listarVuelosToolStripMenuItem";
-            listarVuelosToolStripMenuItem.Size = new Size(310, 26);
+            listarVuelosToolStripMenuItem.Size = new Size(247, 22);
             listarVuelosToolStripMenuItem.Text = "Listar Vuelos";
             listarVuelosToolStripMenuItem.Click += listarVuelosToolStripMenuItem_Click;
             // 
             // panel1
             // 
-            panel1.Location = new Point(12, 31);
+            panel1.Location = new Point(10, 23);
+            panel1.Margin = new Padding(3, 2, 3, 2);
             panel1.Name = "panel1";
-            panel1.Size = new Size(811, 444);
+            panel1.Size = new Size(710, 333);
             panel1.TabIndex = 1;
             panel1.Paint += panel1_Paint;
             // 
             // button1
             // 
-            button1.Location = new Point(880, 118);
+            button1.Location = new Point(770, 88);
+            button1.Margin = new Padding(3, 2, 3, 2);
             button1.Name = "button1";
-            button1.Size = new Size(167, 60);
+            button1.Size = new Size(146, 45);
             button1.TabIndex = 2;
             button1.Text = "SIMULAR";
             button1.UseVisualStyleBackColor = true;
@@ -111,17 +114,18 @@
             // 
             // textBox1
             // 
-            textBox1.Location = new Point(880, 317);
+            textBox1.Location = new Point(770, 238);
+            textBox1.Margin = new Padding(3, 2, 3, 2);
             textBox1.Name = "textBox1";
-            textBox1.Size = new Size(167, 27);
+            textBox1.Size = new Size(147, 23);
             textBox1.TabIndex = 3;
             // 
             // label1
             // 
             label1.AutoSize = true;
-            label1.Location = new Point(891, 278);
+            label1.Location = new Point(780, 208);
             label1.Name = "label1";
-            label1.Size = new Size(147, 20);
+            label1.Size = new Size(117, 15);
             label1.TabIndex = 4;
             label1.Text = "Tiempo en segundos";
             // 
@@ -131,17 +135,17 @@
             // 
             // Form1
             // 
-            AutoScaleDimensions = new SizeF(8F, 20F);
+            AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
-            ClientSize = new Size(1130, 523);
+            ClientSize = new Size(989, 392);
             Controls.Add(label1);
             Controls.Add(textBox1);
             Controls.Add(button1);
             Controls.Add(panel1);
             Controls.Add(menuStrip1);
             MainMenuStrip = menuStrip1;
+            Margin = new Padding(3, 2, 3, 2);
             Name = "Form1";
-            Text = "FormPrincipal";
             Load += Form1_Load;
             menuStrip1.ResumeLayout(false);
             menuStrip1.PerformLayout();

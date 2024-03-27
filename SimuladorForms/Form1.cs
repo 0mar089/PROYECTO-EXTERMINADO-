@@ -21,6 +21,8 @@ namespace SimuladorForms
         CAvion[] vuelos;
         int tag;
 
+        int i;
+
 
         public Form1()
         {
@@ -196,11 +198,20 @@ namespace SimuladorForms
         private void timer1_Tick(object sender, EventArgs e)
         {
             
-            for (int i = 0; i < 5; i++)
+            for (int w = 0; w < 5; w++)
             {
-                aircraft_vector[i].Location = new Point(Convert.ToInt32(vuelos[i].GetPosition_X()), Convert.ToInt32(vuelos[i].GetPosition_Y()));
-                
+
+                int posicionpicturex = (Convert.ToInt32(vuelos[w].GetPosition_X())) /10;
+                int posicionpicturey = (Convert.ToInt32(vuelos[w].GetPosition_Y())) / 10;
+
+                aircraft_vector[w].Location = new Point(this.i * posicionpicturex, this.i * posicionpicturey);
+
             }
+
+            this.i = i++;
+
+
+
             double tiempo = Convert.ToDouble(textBox1.Text);
             lista.Calculo(lista, tiempo);
         }
