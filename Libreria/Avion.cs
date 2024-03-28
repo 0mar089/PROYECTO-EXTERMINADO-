@@ -124,5 +124,11 @@ namespace Avion
             return this.posición_y;
         }
 
+        public void ResetPosition()
+        {
+            this.posición_x = origen_x;
+            this.posición_y = origen_y;
+        }
+
     }
 }

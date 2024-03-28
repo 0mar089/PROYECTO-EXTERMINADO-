@@ -8,6 +8,8 @@ using ListaDeVuelos;
 using Avion;
 using Sector;
 using System.Collections;
+using System.Runtime.CompilerServices;
+using System.Drawing;
 
 
 namespace SimuladorForms
@@ -20,9 +22,11 @@ namespace SimuladorForms
         CSector Sector = new CSector();
         CAvion[] vuelos;
         int tag;
-
+        double tiempo;
         int i;
-
+        int cont = 5;
+        Point[] polygonPoints = new Point[4];
+        bool verificar = false;
 
         public Form1()
         {
@@ -34,7 +38,7 @@ namespace SimuladorForms
 
         private void Form1_Load(object sender, EventArgs e)
         {
-             
+
         }
 
 
@@ -95,6 +99,7 @@ namespace SimuladorForms
                 else
                 {
                     MessageBox.Show("Fichero Cargado");
+                    this.verificar = true;
                     CargarAviones();
                 }
             }
@@ -148,6 +153,7 @@ namespace SimuladorForms
                 else
                 {
                     MessageBox.Show("Fichero Cargado");
+
                     panel1.Invalidate();
                 }
             }
@@ -156,17 +162,57 @@ namespace SimuladorForms
         private void panel1_Paint(object sender, PaintEventArgs e)
         {
             System.Drawing.Graphics graphics = e.Graphics;
-            //Colour to draw the rectangle
-            Pen myPen = new Pen(Color.Green);
-            // Points that define the rectangle
-            Point[] polygonPoints = new Point[4];
-            polygonPoints[0] = new Point(Convert.ToInt32(Sector.Get_Posrec_x()), Convert.ToInt32(Sector.Get_Posrec_y()));
-            polygonPoints[1] = new Point(Convert.ToInt32(Sector.Get_Posrec_x()), Convert.ToInt32(Sector.Get_Posrec_y()) + Convert.ToInt32(Sector.Get_Altorec()));
-            polygonPoints[2] = new Point(Convert.ToInt32(Sector.Get_Posrec_x()) + Convert.ToInt32(Sector.Get_Anchorec()), Convert.ToInt32(Sector.Get_Posrec_y()) + Convert.ToInt32(Sector.Get_Altorec()));
-            polygonPoints[3] = new Point(Convert.ToInt32(Sector.Get_Posrec_x()) + Convert.ToInt32(Sector.Get_Anchorec()), Convert.ToInt32(Sector.Get_Posrec_y()));
-            //Draw the rectangle
-            graphics.DrawPolygon(myPen, polygonPoints);
-            myPen.Dispose();
+            if (this.verificar == false)
+            {
+                
+                Pen myPen = new Pen(Color.Green, 4);
+                // Points that define the rectangle
+
+                this.polygonPoints[0] = new Point(Convert.ToInt32(Sector.Get_Posrec_x()), Convert.ToInt32(Sector.Get_Posrec_y()));
+                this.polygonPoints[1] = new Point(Convert.ToInt32(Sector.Get_Posrec_x()), Convert.ToInt32(Sector.Get_Posrec_y()) + Convert.ToInt32(Sector.Get_Altorec()));
+                this.polygonPoints[2] = new Point(Convert.ToInt32(Sector.Get_Posrec_x()) + Convert.ToInt32(Sector.Get_Anchorec()), Convert.ToInt32(Sector.Get_Posrec_y()) + Convert.ToInt32(Sector.Get_Altorec()));
+                this.polygonPoints[3] = new Point(Convert.ToInt32(Sector.Get_Posrec_x()) + Convert.ToInt32(Sector.Get_Anchorec()), Convert.ToInt32(Sector.Get_Posrec_y()));
+                //Draw the rectangle
+                graphics.DrawPolygon(myPen, this.polygonPoints);
+                myPen.Dispose();
+            }
+            else
+            {
+                if(Sector.CalculoSector(this.lista, this.Sector) >33.33 && Sector.CalculoSector(this.lista, this.Sector) < 66.66)
+                {
+                    Pen myPen = new Pen(Color.Yellow, 4);
+
+                    this.polygonPoints[0] = new Point(Convert.ToInt32(Sector.Get_Posrec_x()), Convert.ToInt32(Sector.Get_Posrec_y()));
+                    this.polygonPoints[1] = new Point(Convert.ToInt32(Sector.Get_Posrec_x()), Convert.ToInt32(Sector.Get_Posrec_y()) + Convert.ToInt32(Sector.Get_Altorec()));
+                    this.polygonPoints[2] = new Point(Convert.ToInt32(Sector.Get_Posrec_x()) + Convert.ToInt32(Sector.Get_Anchorec()), Convert.ToInt32(Sector.Get_Posrec_y()) + Convert.ToInt32(Sector.Get_Altorec()));
+                    this.polygonPoints[3] = new Point(Convert.ToInt32(Sector.Get_Posrec_x()) + Convert.ToInt32(Sector.Get_Anchorec()), Convert.ToInt32(Sector.Get_Posrec_y()));
+
+
+                    graphics.DrawPolygon(myPen, this.polygonPoints);
+                    myPen.Dispose();
+                }
+                else if (Sector.CalculoSector(this.lista, this.Sector) > 66.66)
+                {
+                    Pen myPen = new Pen(Color.Red, 4);
+                    this.polygonPoints[0] = new Point(Convert.ToInt32(Sector.Get_Posrec_x()), Convert.ToInt32(Sector.Get_Posrec_y()));
+                    this.polygonPoints[1] = new Point(Convert.ToInt32(Sector.Get_Posrec_x()), Convert.ToInt32(Sector.Get_Posrec_y()) + Convert.ToInt32(Sector.Get_Altorec()));
+                    this.polygonPoints[2] = new Point(Convert.ToInt32(Sector.Get_Posrec_x()) + Convert.ToInt32(Sector.Get_Anchorec()), Convert.ToInt32(Sector.Get_Posrec_y()) + Convert.ToInt32(Sector.Get_Altorec()));
+                    this.polygonPoints[3] = new Point(Convert.ToInt32(Sector.Get_Posrec_x()) + Convert.ToInt32(Sector.Get_Anchorec()), Convert.ToInt32(Sector.Get_Posrec_y()));
+                    graphics.DrawPolygon(myPen, this.polygonPoints);
+                    myPen.Dispose();
+                }
+                else
+                {
+                    Pen myPen = new Pen(Color.Green, 4);
+                    this.polygonPoints[0] = new Point(Convert.ToInt32(Sector.Get_Posrec_x()), Convert.ToInt32(Sector.Get_Posrec_y()));
+                    this.polygonPoints[1] = new Point(Convert.ToInt32(Sector.Get_Posrec_x()), Convert.ToInt32(Sector.Get_Posrec_y()) + Convert.ToInt32(Sector.Get_Altorec()));
+                    this.polygonPoints[2] = new Point(Convert.ToInt32(Sector.Get_Posrec_x()) + Convert.ToInt32(Sector.Get_Anchorec()), Convert.ToInt32(Sector.Get_Posrec_y()) + Convert.ToInt32(Sector.Get_Altorec()));
+                    this.polygonPoints[3] = new Point(Convert.ToInt32(Sector.Get_Posrec_x()) + Convert.ToInt32(Sector.Get_Anchorec()), Convert.ToInt32(Sector.Get_Posrec_y()));
+                    graphics.DrawPolygon(myPen, this.polygonPoints);
+                    myPen.Dispose();
+                }
+            }
+            
         }
 
 
@@ -189,31 +235,51 @@ namespace SimuladorForms
 
         private void button1_Click(object sender, EventArgs e)
         {
-            double tiempo = Convert.ToDouble(textBox1.Text);
-            lista.Calculo(lista, tiempo);
+            this.tiempo = Convert.ToDouble(textBox1.Text);
+            lista.Calculo(lista, this.tiempo / this.cont);
             timer1.Interval = 500;
             timer1.Enabled = true;
         }
 
         private void timer1_Tick(object sender, EventArgs e)
         {
-            
+
             for (int w = 0; w < 5; w++)
             {
 
-                int posicionpicturex = (Convert.ToInt32(vuelos[w].GetPosition_X())) /10;
-                int posicionpicturey = (Convert.ToInt32(vuelos[w].GetPosition_Y())) / 10;
+                int posicionpicturex = (Convert.ToInt32(vuelos[w].GetPosition_X()));
+                int posicionpicturey = (Convert.ToInt32(vuelos[w].GetPosition_Y()));
 
-                aircraft_vector[w].Location = new Point(this.i * posicionpicturex, this.i * posicionpicturey);
+                aircraft_vector[w].Location = new Point(posicionpicturex, posicionpicturey);
 
             }
 
-            this.i = i++;
+            if (this.cont == 1)
+            {
+                timer1.Stop();
+            }
+            else
+            {
+                this.cont--;
+                lista.Calculo(lista, this.tiempo / this.cont);
+            }
+            panel1.Invalidate();
+        }
 
+        private void label1_Click(object sender, EventArgs e)
+        {
 
+        }
 
-            double tiempo = Convert.ToDouble(textBox1.Text);
-            lista.Calculo(lista, tiempo);
+        private void button2_Click(object sender, EventArgs e)
+        {
+            for(int i = 0; i<5; i++)
+            {
+                this.vuelos[i].ResetPosition();
+                aircraft_vector[i].Location = new Point(Convert.ToInt32(this.vuelos[i].GetPosition_X()), Convert.ToInt32(this.vuelos[i].GetPosition_Y()));
+
+            }
+            
         }
     }
 }

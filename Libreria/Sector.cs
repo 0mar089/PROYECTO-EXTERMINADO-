@@ -123,6 +123,7 @@ namespace Sector
         // FUNCIÓN QUE CALCULA EL PORCENTAJE DE AVIONES EN EL SECTOR
         public double CalculoSector(CListaDeVuelos lista, CSector sector)
         {
+ 
             double porcentaje;
             double contador = 0;
             CAvion[] vuelos = lista.GetLista();
@@ -130,15 +131,14 @@ namespace Sector
             {
                 if ((sector.Get_Posrec_x() < vuelos[i].GetPosition_X() && vuelos[i].GetPosition_X() < sector.Get_Posrec_x() + sector.Get_Anchorec()) && (sector.Get_Posrec_y() < vuelos[i].GetPosition_Y() && vuelos[i].GetPosition_Y() < sector.Get_Posrec_y() + sector.Get_Anchorec()))
                 {
-                    contador++;
+                        contador++;
                 }
 
 
             }
             porcentaje = (contador / sector.Get_Capmax()) * 100;
             return porcentaje;
-
-
+           
         }
 
         // FUNCIÓN QUE IMPRIME LA INFORMACIÓN DEL SECTOR
