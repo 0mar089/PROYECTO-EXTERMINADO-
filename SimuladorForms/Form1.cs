@@ -41,7 +41,6 @@ namespace SimuladorForms
 
         }
 
-
         public void CargarAviones()
         {
 
@@ -260,7 +259,7 @@ namespace SimuladorForms
             }
             else
             {
-                this.cont--;
+                this.cont--; 
                 lista.Calculo(lista, this.tiempo / this.cont);
             }
             panel1.Invalidate();
