@@ -31,27 +31,30 @@ namespace SimuladorForms
             
 
         }
-
-
-
+     
         private void Form3_Load(object sender, EventArgs e)
         {
             matriz.ColumnCount = 9;
             matriz.RowCount = 5;
             matriz.ColumnHeadersVisible = false;
             matriz.RowHeadersVisible = false;
-            matriz.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.AllCells;
-
+            matriz.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
+            matriz.AutoSizeRowsMode = DataGridViewAutoSizeRowsMode.AllCells;
+            matriz.ReadOnly = true;
             CAvion[] vuelos = lista.GetLista();
+            foreach (DataGridViewColumn column in matriz.Columns)
+            {
+                column.Resizable = DataGridViewTriState.False;
+            }
 
 
             // J = COLUMNAS, I = FILAS
 
-            for (int j = 0; j<9; j++)
+            for (int j = 0; j < 9; j++)
             {
-                for(int i = 0; i<5; i++)
+                for (int i = 0; i < 5; i++)
                 {
-                    if(j == 0)
+                    if (j == 0)
                     {
                         matriz.Rows[i].Cells[j].Value = vuelos[i].GetID();
                     }
@@ -87,9 +90,10 @@ namespace SimuladorForms
                     {
                         matriz.Rows[i].Cells[j].Value = vuelos[i].GetPosition_Y();
                     }
-                    
+
                 }
             }
+
         }   
     }
 }

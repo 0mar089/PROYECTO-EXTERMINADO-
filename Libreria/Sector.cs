@@ -116,6 +116,10 @@ namespace Sector
             {
                 return -2;
             }
+            catch (IndexOutOfRangeException)
+            {
+                return -3;
+            }
 
         }
 

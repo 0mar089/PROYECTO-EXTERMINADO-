@@ -27,6 +27,7 @@ namespace SimuladorForms
         int cont = 5;
         Point[] polygonPoints = new Point[4];
         bool verificar = false;
+        bool verif_cargar = false;
 
         public Form1()
         {
@@ -43,7 +44,7 @@ namespace SimuladorForms
 
         public void CargarAviones()
         {
-
+            
             for (int i = 0; i < 5; i++)
             {
                 PictureBox aircraft = new PictureBox();
@@ -61,7 +62,13 @@ namespace SimuladorForms
             }
         }
 
-
+        /* ERRORES DE NO CARGAR VUELOS
+         * 
+         * Error al guardar el fichero
+         * Error al listar vuelos
+         * Error al simular
+         *
+         */
 
 
         private void aircraft_Click(object sender, EventArgs e)
@@ -94,11 +101,14 @@ namespace SimuladorForms
                 {
                     MessageBox.Show("Formato inesperado");
                 }
-
+                else if(p == -3)
+                {
+                    MessageBox.Show("Formato inesperado");
+                }
                 else
                 {
                     MessageBox.Show("Fichero Cargado");
-                    this.verificar = true;
+                    this.verif_cargar = true;
                     CargarAviones();
                 }
             }
@@ -114,15 +124,20 @@ namespace SimuladorForms
             if (saveFileDialog1.ShowDialog() == DialogResult.OK)
             {
                 string filename = openFileDialog1.FileName;
-                MessageBox.Show(filename);
+                
                 int err = lista.GuardarFichero(filename);
                 if (err == 0)
                 {
+                    MessageBox.Show(filename);
                     MessageBox.Show("Fichero Guardado");
                 }
                 else if (err == -2)
                 {
                     MessageBox.Show("Formato inesperado");
+                }
+                else if(err == -3)
+                {
+                    MessageBox.Show("Fichero vacio, no se puede guardar");
                 }
                 else
                 {
@@ -148,10 +163,14 @@ namespace SimuladorForms
                 {
                     MessageBox.Show("Formato inesperado");
                 }
-
+                else if(p == -3)
+                {
+                    MessageBox.Show("Formato Inesperado");
+                }
                 else
                 {
                     MessageBox.Show("Fichero Cargado");
+                    this.verificar = true;
 
                     panel1.Invalidate();
                 }
@@ -227,17 +246,32 @@ namespace SimuladorForms
 
         private void listarVuelosToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            Form3 f3 = new Form3();
-            f3.SetLista(this.lista);
-            f3.ShowDialog();
+            if(verif_cargar == true)
+            {
+                Form3 f3 = new Form3();
+                f3.SetLista(this.lista);
+                f3.ShowDialog();
+            }
+            else
+            {
+                MessageBox.Show("Carga el fichero primero");
+            }
         }
 
         private void button1_Click(object sender, EventArgs e)
         {
-            this.tiempo = Convert.ToDouble(textBox1.Text);
-            lista.Calculo(lista, this.tiempo / this.cont);
-            timer1.Interval = 500;
-            timer1.Enabled = true;
+            try
+            {
+                this.tiempo = Convert.ToDouble(textBox1.Text);
+                lista.Calculo(lista, this.tiempo / this.cont);
+                timer1.Interval = 500;
+                timer1.Enabled = true;
+            }
+            catch (FormatException)
+            {
+                MessageBox.Show("Datos introducidos incorrectos");
+            }
+            
         }
 
         private void timer1_Tick(object sender, EventArgs e)
@@ -272,11 +306,20 @@ namespace SimuladorForms
 
         private void button2_Click(object sender, EventArgs e)
         {
-            for(int i = 0; i<5; i++)
-            {
-                this.vuelos[i].ResetPosition();
-                aircraft_vector[i].Location = new Point(Convert.ToInt32(this.vuelos[i].GetPosition_X()), Convert.ToInt32(this.vuelos[i].GetPosition_Y()));
 
+            if(this.verif_cargar == true)
+            {
+                this.cont = 5;
+                for (int i = 0; i < 5; i++)
+                {
+                    this.vuelos[i].ResetPosition();
+                    aircraft_vector[i].Location = new Point(Convert.ToInt32(this.vuelos[i].GetPosition_X()), Convert.ToInt32(this.vuelos[i].GetPosition_Y()));
+                    panel1.Invalidate();
+                }
+            }
+            else
+            {
+                MessageBox.Show("No reinicies si no tienes nada cargado");
             }
             
         }

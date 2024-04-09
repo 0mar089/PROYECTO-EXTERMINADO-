@@ -64,6 +64,10 @@ namespace ListaDeVuelos
             {
                 return -2;
             }
+            catch (IndexOutOfRangeException)
+            {
+                return -3;
+            }
 
         }
 
@@ -79,17 +83,22 @@ namespace ListaDeVuelos
                 {
                     fichero.WriteLine("{0} - {1} - {2} - {3} - {4} - {5} - {6} - {7} - {8}", this.vuelos[i].GetID(), this.vuelos[i].GetComp(), this.vuelos[i].GetOrigen_X(), this.vuelos[i].GetOrigen_Y(), this.vuelos[i].GetDestino_X(), this.vuelos[i].GetDestino_Y(), this.vuelos[i].GetSpeed(), this.vuelos[i].GetPosition_X(), this.vuelos[i].GetPosition_Y());
                 }
+                fichero.Close();
                 return 0;
             }
             catch (FileNotFoundException)
             {
+
                 return -1;
             }
             catch (FormatException)
             {
                 return -2;
             }
-
+            catch (ArgumentException)
+            {
+                return -3;
+            }
         }
 
         // FUNCIÓN QUE CALCULA LA SIMULACION DE LOS AVIONES EN UN TIEMPO

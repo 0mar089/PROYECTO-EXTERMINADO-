@@ -39,7 +39,7 @@
             matriz.Name = "matriz";
             matriz.RowHeadersWidth = 51;
             matriz.RowTemplate.Height = 29;
-            matriz.Size = new Size(549, 366);
+            matriz.Size = new Size(549, 128);
             matriz.TabIndex = 0;
             // 
             // Form3
