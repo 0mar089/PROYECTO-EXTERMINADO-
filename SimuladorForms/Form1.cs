@@ -28,6 +28,7 @@ namespace SimuladorForms
         Point[] polygonPoints = new Point[4];
         bool verificar = false;
         bool verif_cargar = false;
+        string filename;
 
         public Form1()
         {
@@ -42,6 +43,7 @@ namespace SimuladorForms
 
         }
 
+        // FUNCION PARA CARGAR LAS IMAGENES DE LOS AVIONES
         public void CargarAviones()
         {
             
@@ -49,7 +51,7 @@ namespace SimuladorForms
             {
                 PictureBox aircraft = new PictureBox();
                 aircraft.ClientSize = new Size(20, 20);
-                aircraft.Location = new Point(Convert.ToInt32(vuelos[i].GetOrigen_X()), Convert.ToInt32(vuelos[i].GetOrigen_Y()));
+                aircraft.Location = new Point(Convert.ToInt32(vuelos[i].GetPosition_X()), Convert.ToInt32(vuelos[i].GetPosition_Y()));
                 aircraft.SizeMode = PictureBoxSizeMode.StretchImage;
                 Bitmap image = new Bitmap("avion.png");
                 aircraft.Width = 50;
@@ -62,15 +64,8 @@ namespace SimuladorForms
             }
         }
 
-        /* ERRORES DE NO CARGAR VUELOS
-         * 
-         * Error al guardar el fichero
-         * Error al listar vuelos
-         * Error al simular
-         *
-         */
 
-
+        // FUNCION PARA ABRIR FORMULARIO PARA VER LOS DATOS DE 1 AVION
         private void aircraft_Click(object sender, EventArgs e)
         {
             PictureBox p = (PictureBox)sender;
@@ -83,13 +78,14 @@ namespace SimuladorForms
 
         }
 
+        // FUNCION PARA CARGAR LOS AVIONES
         private void CargarFichero_Click(object sender, EventArgs e)
         {
             if (openFileDialog1.ShowDialog() == DialogResult.OK)
             {
-                string filename = openFileDialog1.FileName;
+                this.filename = openFileDialog1.FileName;
 
-                int p = lista.CargarVuelos(filename, this.lista);
+                int p = lista.CargarVuelos(this.filename, this.lista);
                 this.vuelos = lista.GetLista();
 
                 if (p == -1)
@@ -119,23 +115,32 @@ namespace SimuladorForms
 
         }
 
+        // FUNCION PARA GUARDAR LOS AVIONES
         private void guardarFicheroToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            if (saveFileDialog1.ShowDialog() == DialogResult.OK)
+            
+            if(this.verif_cargar == false)
             {
-                string filename = openFileDialog1.FileName;
-                
-                int err = lista.GuardarFichero(filename);
+                MessageBox.Show("Carga el fichero primero");
+            }
+            else
+            {
+                int err = lista.GuardarFichero(this.filename);
                 if (err == 0)
                 {
                     MessageBox.Show(filename);
                     MessageBox.Show("Fichero Guardado");
+                    this.cont = 5;
                 }
                 else if (err == -2)
                 {
                     MessageBox.Show("Formato inesperado");
                 }
-                else if(err == -3)
+                else if (err == -3)
+                {
+                    MessageBox.Show("Fichero vacio, no se puede guardar");
+                }
+                else if (err == -4)
                 {
                     MessageBox.Show("Fichero vacio, no se puede guardar");
                 }
@@ -144,15 +149,17 @@ namespace SimuladorForms
                     MessageBox.Show("Fichero no encontrado");
                 }
             }
+            
         }
 
+        // FUNCION PARA CARGAR EL SECTOR
         private void cargarSectorToolStripMenuItem_Click(object sender, EventArgs e)
         {
             if (openFileDialog1.ShowDialog() == DialogResult.OK)
             {
-                string filename = openFileDialog1.FileName;
+                 string name = openFileDialog1.FileName;
 
-                int p = Sector.CargarSector(filename);
+                int p = Sector.CargarSector(name);
 
                 if (p == -1)
                 {
@@ -177,6 +184,7 @@ namespace SimuladorForms
             }
         }
 
+        // FUNCION PARA PINTAR EL PANEL DEL SECTOR
         private void panel1_Paint(object sender, PaintEventArgs e)
         {
             System.Drawing.Graphics graphics = e.Graphics;
@@ -184,13 +192,11 @@ namespace SimuladorForms
             {
                 
                 Pen myPen = new Pen(Color.Green, 4);
-                // Points that define the rectangle
 
                 this.polygonPoints[0] = new Point(Convert.ToInt32(Sector.Get_Posrec_x()), Convert.ToInt32(Sector.Get_Posrec_y()));
                 this.polygonPoints[1] = new Point(Convert.ToInt32(Sector.Get_Posrec_x()), Convert.ToInt32(Sector.Get_Posrec_y()) + Convert.ToInt32(Sector.Get_Altorec()));
                 this.polygonPoints[2] = new Point(Convert.ToInt32(Sector.Get_Posrec_x()) + Convert.ToInt32(Sector.Get_Anchorec()), Convert.ToInt32(Sector.Get_Posrec_y()) + Convert.ToInt32(Sector.Get_Altorec()));
                 this.polygonPoints[3] = new Point(Convert.ToInt32(Sector.Get_Posrec_x()) + Convert.ToInt32(Sector.Get_Anchorec()), Convert.ToInt32(Sector.Get_Posrec_y()));
-                //Draw the rectangle
                 graphics.DrawPolygon(myPen, this.polygonPoints);
                 myPen.Dispose();
             }
@@ -244,6 +250,7 @@ namespace SimuladorForms
             return this.tag;
         }
 
+        // FUNCION PARA LISTAR VUELOS
         private void listarVuelosToolStripMenuItem_Click(object sender, EventArgs e)
         {
             if(verif_cargar == true)
@@ -258,10 +265,12 @@ namespace SimuladorForms
             }
         }
 
+        // FUNCION PARA SIMULAR
         private void button1_Click(object sender, EventArgs e)
         {
             try
             {
+                this.cont = 5;
                 this.tiempo = Convert.ToDouble(textBox1.Text);
                 lista.Calculo(lista, this.tiempo / this.cont);
                 timer1.Interval = 500;
@@ -272,6 +281,11 @@ namespace SimuladorForms
                 MessageBox.Show("Datos introducidos incorrectos");
             }
             
+        }
+
+        public void VerificarAviones()
+        {
+
         }
 
         private void timer1_Tick(object sender, EventArgs e)
@@ -290,6 +304,7 @@ namespace SimuladorForms
             if (this.cont == 1)
             {
                 timer1.Stop();
+                VerificarAviones();
             }
             else
             {
@@ -297,6 +312,8 @@ namespace SimuladorForms
                 lista.Calculo(lista, this.tiempo / this.cont);
             }
             panel1.Invalidate();
+
+
         }
 
         private void label1_Click(object sender, EventArgs e)
@@ -304,6 +321,7 @@ namespace SimuladorForms
 
         }
 
+        // FUNCION DE RESET AVIONES Y SECTOR
         private void button2_Click(object sender, EventArgs e)
         {
 

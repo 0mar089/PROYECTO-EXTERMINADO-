@@ -76,9 +76,12 @@ namespace ListaDeVuelos
         {
             try
             {
+                for (int i = 0; i < 5; i++)
+                {
+                    this.vuelos[i].SetOrigen_X(this.vuelos[i].GetPosition_X());
+                    this.vuelos[i].SetOrigen_Y(this.vuelos[i].GetPosition_Y());
+                }
                 StreamWriter fichero = new StreamWriter(path);
-                File.WriteAllText(path, string.Empty);
-
                 for (int i = 0; i < MAX_AVIONES; i++)
                 {
                     fichero.WriteLine("{0} - {1} - {2} - {3} - {4} - {5} - {6} - {7} - {8}", this.vuelos[i].GetID(), this.vuelos[i].GetComp(), this.vuelos[i].GetOrigen_X(), this.vuelos[i].GetOrigen_Y(), this.vuelos[i].GetDestino_X(), this.vuelos[i].GetDestino_Y(), this.vuelos[i].GetSpeed(), this.vuelos[i].GetPosition_X(), this.vuelos[i].GetPosition_Y());
@@ -99,6 +102,10 @@ namespace ListaDeVuelos
             {
                 return -3;
             }
+            catch (NullReferenceException)
+            {
+                return -4;
+            }
         }
 
         // FUNCIÓN QUE CALCULA LA SIMULACION DE LOS AVIONES EN UN TIEMPO
@@ -108,9 +115,9 @@ namespace ListaDeVuelos
             for (int i = 0; i < lista.vuelos.Length; i++)
             {
 
-                double cateto_opuesto = Math.Abs(((lista.vuelos[i].GetDestino_Y()) - (lista.vuelos[i].GetOrigen_Y())));
-                double cateto_contiguo = Math.Abs(((lista.vuelos[i].GetDestino_X()) - (lista.vuelos[i].GetOrigen_X())));
-                double hipotenusa = Math.Sqrt(Math.Pow(lista.vuelos[i].GetDestino_X() - lista.vuelos[i].GetOrigen_X(), 2) + Math.Pow(lista.vuelos[i].GetDestino_Y() - lista.vuelos[i].GetOrigen_Y(), 2));
+                double cateto_opuesto = Math.Abs(((lista.vuelos[i].GetDestino_Y()) - (lista.vuelos[i].GetPosition_Y())));
+                double cateto_contiguo = Math.Abs(((lista.vuelos[i].GetDestino_X()) - (lista.vuelos[i].GetPosition_X())));
+                double hipotenusa = Math.Sqrt(Math.Pow(lista.vuelos[i].GetDestino_X() - lista.vuelos[i].GetPosition_X(), 2) + Math.Pow(lista.vuelos[i].GetDestino_Y() - lista.vuelos[i].GetPosition_Y(), 2));
 
                 double coseno = cateto_contiguo / hipotenusa;
                 double seno = cateto_opuesto / hipotenusa;
@@ -118,8 +125,8 @@ namespace ListaDeVuelos
                 double Avance_x = (lista.vuelos[i].GetSpeed() / 60) * tiempo * coseno;
                 double Avance_y = (lista.vuelos[i].GetSpeed() / 60) * tiempo * seno;
 
-                double nueva_posicion_x = Avance_x + lista.vuelos[i].GetOrigen_X();
-                double nueva_posicion_y = -Avance_y + lista.vuelos[i].GetOrigen_Y();
+                double nueva_posicion_x = Avance_x + lista.vuelos[i].GetPosition_X();
+                double nueva_posicion_y = -Avance_y + lista.vuelos[i].GetPosition_Y();
 
 
                 lista.vuelos[i].SetPosition_X(nueva_posicion_x);

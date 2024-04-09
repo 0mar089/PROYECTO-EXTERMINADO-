@@ -32,6 +32,7 @@ namespace SimuladorForms
 
         }
      
+        // FUNCION PARA VER LOS DATOS DE TODOS LOS AVIONES EN UN DATA GRID
         private void Form3_Load(object sender, EventArgs e)
         {
             matriz.ColumnCount = 9;

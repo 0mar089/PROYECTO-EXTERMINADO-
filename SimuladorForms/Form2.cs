@@ -32,6 +32,7 @@ namespace SimuladorForms
             this.tag = i;
         }
 
+        // FUNCION PARA VER LOS DATOS DE 1 AVION
         private void Form2_Load(object sender, EventArgs e)
         {
             Form1 f1 = new Form1();
