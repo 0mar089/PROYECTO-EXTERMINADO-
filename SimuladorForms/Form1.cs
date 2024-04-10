@@ -25,10 +25,10 @@ namespace SimuladorForms
         double tiempo;
         int i;
         int cont = 5;
-        Point[] polygonPoints = new Point[4];
         bool verificar = false;
         bool verif_cargar = false;
         string filename;
+        string filename_s;
 
         public Form1()
         {
@@ -46,7 +46,7 @@ namespace SimuladorForms
         // FUNCION PARA CARGAR LAS IMAGENES DE LOS AVIONES
         public void CargarAviones()
         {
-            
+
             for (int i = 0; i < 5; i++)
             {
                 PictureBox aircraft = new PictureBox();
@@ -97,7 +97,7 @@ namespace SimuladorForms
                 {
                     MessageBox.Show("Formato inesperado");
                 }
-                else if(p == -3)
+                else if (p == -3)
                 {
                     MessageBox.Show("Formato inesperado");
                 }
@@ -118,8 +118,8 @@ namespace SimuladorForms
         // FUNCION PARA GUARDAR LOS AVIONES
         private void guardarFicheroToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            
-            if(this.verif_cargar == false)
+
+            if (this.verif_cargar == false)
             {
                 MessageBox.Show("Carga el fichero primero");
             }
@@ -149,7 +149,7 @@ namespace SimuladorForms
                     MessageBox.Show("Fichero no encontrado");
                 }
             }
-            
+
         }
 
         // FUNCION PARA CARGAR EL SECTOR
@@ -157,9 +157,9 @@ namespace SimuladorForms
         {
             if (openFileDialog1.ShowDialog() == DialogResult.OK)
             {
-                 string name = openFileDialog1.FileName;
+                filename_s = openFileDialog1.FileName;
 
-                int p = Sector.CargarSector(name);
+                int p = Sector.CargarSector(filename_s);
 
                 if (p == -1)
                 {
@@ -170,7 +170,7 @@ namespace SimuladorForms
                 {
                     MessageBox.Show("Formato inesperado");
                 }
-                else if(p == -3)
+                else if (p == -3)
                 {
                     MessageBox.Show("Formato Inesperado");
                 }
@@ -187,56 +187,71 @@ namespace SimuladorForms
         // FUNCION PARA PINTAR EL PANEL DEL SECTOR
         private void panel1_Paint(object sender, PaintEventArgs e)
         {
-            System.Drawing.Graphics graphics = e.Graphics;
-            if (this.verificar == false)
-            {
-                
-                Pen myPen = new Pen(Color.Green, 4);
+            if (this.verificar == true) { 
+                List<Point> puntos = new List<Point>();
+                try
+                {
+                    StreamReader fichero = new StreamReader(filename_s);
+                    string linea = fichero.ReadLine();
 
-                this.polygonPoints[0] = new Point(Convert.ToInt32(Sector.Get_Posrec_x()), Convert.ToInt32(Sector.Get_Posrec_y()));
-                this.polygonPoints[1] = new Point(Convert.ToInt32(Sector.Get_Posrec_x()), Convert.ToInt32(Sector.Get_Posrec_y()) + Convert.ToInt32(Sector.Get_Altorec()));
-                this.polygonPoints[2] = new Point(Convert.ToInt32(Sector.Get_Posrec_x()) + Convert.ToInt32(Sector.Get_Anchorec()), Convert.ToInt32(Sector.Get_Posrec_y()) + Convert.ToInt32(Sector.Get_Altorec()));
-                this.polygonPoints[3] = new Point(Convert.ToInt32(Sector.Get_Posrec_x()) + Convert.ToInt32(Sector.Get_Anchorec()), Convert.ToInt32(Sector.Get_Posrec_y()));
-                graphics.DrawPolygon(myPen, this.polygonPoints);
-                myPen.Dispose();
-            }
-            else
-            {
-                if(Sector.CalculoSector(this.lista, this.Sector) >33.33 && Sector.CalculoSector(this.lista, this.Sector) < 66.66)
+                    while (linea != null)
+                    {
+                        string[] trozos = linea.Split(" , ");
+                        int x = 0;
+                        int y = 0;
+                        for (int i = 2; i < trozos.Length; i++)
+                        {
+                            if (i % 2 == 0)
+                            {
+                                x = Convert.ToInt32(trozos[i]);
+                            }
+                            else
+                            {
+                                y = Convert.ToInt32(trozos[i]);
+                                Point p = new Point(x, y);
+                                puntos.Add(p);
+                                x = 0;
+                                y = 0;
+                            }
+                        }
+
+                        linea = fichero.ReadLine();
+                    }
+
+                    fichero.Close();
+
+                }
+                catch (FileNotFoundException)
+                {
+                    MessageBox.Show("Falta el fichero");
+                }
+                Point[] poligono = new Point[puntos.Count()];
+                for (int i = 0; i < poligono.Length; i++)
+                {
+                    poligono[i] = puntos[i];
+                }
+                System.Drawing.Graphics graphics = e.Graphics;
+                if (Sector.CalculoSector(this.lista, this.Sector) > 33.33 && Sector.CalculoSector(this.lista, this.Sector) < 66.66)
                 {
                     Pen myPen = new Pen(Color.Yellow, 4);
-
-                    this.polygonPoints[0] = new Point(Convert.ToInt32(Sector.Get_Posrec_x()), Convert.ToInt32(Sector.Get_Posrec_y()));
-                    this.polygonPoints[1] = new Point(Convert.ToInt32(Sector.Get_Posrec_x()), Convert.ToInt32(Sector.Get_Posrec_y()) + Convert.ToInt32(Sector.Get_Altorec()));
-                    this.polygonPoints[2] = new Point(Convert.ToInt32(Sector.Get_Posrec_x()) + Convert.ToInt32(Sector.Get_Anchorec()), Convert.ToInt32(Sector.Get_Posrec_y()) + Convert.ToInt32(Sector.Get_Altorec()));
-                    this.polygonPoints[3] = new Point(Convert.ToInt32(Sector.Get_Posrec_x()) + Convert.ToInt32(Sector.Get_Anchorec()), Convert.ToInt32(Sector.Get_Posrec_y()));
-
-
-                    graphics.DrawPolygon(myPen, this.polygonPoints);
+                    graphics.DrawPolygon(myPen, poligono);
                     myPen.Dispose();
                 }
                 else if (Sector.CalculoSector(this.lista, this.Sector) > 66.66)
                 {
                     Pen myPen = new Pen(Color.Red, 4);
-                    this.polygonPoints[0] = new Point(Convert.ToInt32(Sector.Get_Posrec_x()), Convert.ToInt32(Sector.Get_Posrec_y()));
-                    this.polygonPoints[1] = new Point(Convert.ToInt32(Sector.Get_Posrec_x()), Convert.ToInt32(Sector.Get_Posrec_y()) + Convert.ToInt32(Sector.Get_Altorec()));
-                    this.polygonPoints[2] = new Point(Convert.ToInt32(Sector.Get_Posrec_x()) + Convert.ToInt32(Sector.Get_Anchorec()), Convert.ToInt32(Sector.Get_Posrec_y()) + Convert.ToInt32(Sector.Get_Altorec()));
-                    this.polygonPoints[3] = new Point(Convert.ToInt32(Sector.Get_Posrec_x()) + Convert.ToInt32(Sector.Get_Anchorec()), Convert.ToInt32(Sector.Get_Posrec_y()));
-                    graphics.DrawPolygon(myPen, this.polygonPoints);
+                    graphics.DrawPolygon(myPen, poligono);
                     myPen.Dispose();
                 }
                 else
                 {
                     Pen myPen = new Pen(Color.Green, 4);
-                    this.polygonPoints[0] = new Point(Convert.ToInt32(Sector.Get_Posrec_x()), Convert.ToInt32(Sector.Get_Posrec_y()));
-                    this.polygonPoints[1] = new Point(Convert.ToInt32(Sector.Get_Posrec_x()), Convert.ToInt32(Sector.Get_Posrec_y()) + Convert.ToInt32(Sector.Get_Altorec()));
-                    this.polygonPoints[2] = new Point(Convert.ToInt32(Sector.Get_Posrec_x()) + Convert.ToInt32(Sector.Get_Anchorec()), Convert.ToInt32(Sector.Get_Posrec_y()) + Convert.ToInt32(Sector.Get_Altorec()));
-                    this.polygonPoints[3] = new Point(Convert.ToInt32(Sector.Get_Posrec_x()) + Convert.ToInt32(Sector.Get_Anchorec()), Convert.ToInt32(Sector.Get_Posrec_y()));
-                    graphics.DrawPolygon(myPen, this.polygonPoints);
+                    graphics.DrawPolygon(myPen, poligono);
                     myPen.Dispose();
                 }
+                 
             }
-            
+
         }
 
 
@@ -253,7 +268,7 @@ namespace SimuladorForms
         // FUNCION PARA LISTAR VUELOS
         private void listarVuelosToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            if(verif_cargar == true)
+            if (verif_cargar == true)
             {
                 Form3 f3 = new Form3();
                 f3.SetLista(this.lista);
@@ -280,7 +295,7 @@ namespace SimuladorForms
             {
                 MessageBox.Show("Datos introducidos incorrectos");
             }
-            
+
         }
 
         public void VerificarAviones()
@@ -308,7 +323,7 @@ namespace SimuladorForms
             }
             else
             {
-                this.cont--; 
+                this.cont--;
                 lista.Calculo(lista, this.tiempo / this.cont);
             }
             panel1.Invalidate();
@@ -325,7 +340,7 @@ namespace SimuladorForms
         private void button2_Click(object sender, EventArgs e)
         {
 
-            if(this.verif_cargar == true)
+            if (this.verif_cargar == true)
             {
                 this.cont = 5;
                 for (int i = 0; i < 5; i++)
@@ -339,7 +354,7 @@ namespace SimuladorForms
             {
                 MessageBox.Show("No reinicies si no tienes nada cargado");
             }
-            
+
         }
     }
 }
