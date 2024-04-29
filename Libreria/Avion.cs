@@ -18,7 +18,10 @@ namespace Avion
         double posición_x; //dos R
         double posición_y; //dos R
 
-        public CAvion(string id, string comp, double ox, double oy, double dx, double dy, double velocidad, double px, double py) // atributos en orden
+        double origen_nocambiante_X;
+        double origen_nocambiante_Y;
+
+        public CAvion(string id, string comp, double ox, double oy, double dx, double dy, double velocidad, double px, double py, double ocx, double ocy) // atributos en orden
         {
             this.identificador = id;
             this.compañía = comp;
@@ -29,6 +32,8 @@ namespace Avion
             this.velocidad = velocidad;
             this.posición_x = px;
             this.posición_y = py;
+            this.origen_nocambiante_X = ocx;
+            this.origen_nocambiante_Y = ocy;
         }
 
         // SETTERS
@@ -124,10 +129,20 @@ namespace Avion
             return this.posición_y;
         }
 
+        public double GetOrigenNo_X()
+        {
+            return this.origen_nocambiante_X;
+        }
+
+        public double GetOrigenNo_Y()
+        {
+            return this.origen_nocambiante_Y;
+        }
+
         public void ResetPosition()
         {
-            this.posición_x = origen_x;
-            this.posición_y = origen_y;
+            this.posición_x = this.origen_nocambiante_X;
+            this.posición_y = this.origen_nocambiante_Y;
         }
 
     }

@@ -30,6 +30,7 @@ namespace SimuladorForms
         bool verif_cargar = false;
         string filename;
         bool manual;
+        List<Point> Vertices;
 
         public FormularioPrincipal()
         {
@@ -335,7 +336,9 @@ namespace SimuladorForms
                 for (int i = 0; i < lista.GetNum(); i++)
                 {
                     this.vuelos[i].ResetPosition();
-                    aircraft_vector[i].Location = new Point(Convert.ToInt32(this.vuelos[i].GetPosition_X()), Convert.ToInt32(this.vuelos[i].GetPosition_Y()));
+                    this.vuelos[i].SetOrigen_X(this.vuelos[i].GetOrigenNo_X());
+                    this.vuelos[i].SetOrigen_Y(this.vuelos[i].GetOrigenNo_Y());
+                    aircraft_vector[i].Location = new Point(Convert.ToInt32(this.vuelos[i].GetOrigenNo_X()), Convert.ToInt32(this.vuelos[i].GetOrigenNo_Y()));
                     panel1.Invalidate();
                 }
             }
@@ -358,6 +361,10 @@ namespace SimuladorForms
 
                     int posicionpicturex = (Convert.ToInt32(vuelos[w].GetPosition_X()));
                     int posicionpicturey = (Convert.ToInt32(vuelos[w].GetPosition_Y()));
+
+                    vuelos[w].SetOrigen_X(vuelos[w].GetPosition_X());
+                    vuelos[w].SetOrigen_Y(vuelos[w].GetPosition_Y());
+
 
                     aircraft_vector[w].Location = new Point(posicionpicturex, posicionpicturey);
 

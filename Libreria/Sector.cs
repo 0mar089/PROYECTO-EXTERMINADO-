@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using Sector;
 using ListaDeVuelos;
 using Avion;
+using System.Drawing;
 namespace Sector
 {
     public class CSector

@@ -50,7 +50,9 @@ namespace ListaDeVuelos
                     double posición_y = Convert.ToDouble(trozos[8]);
 
 
-                    CAvion avion = new CAvion(identificador, compañía, origen_x, origen_y, destino_x, destino_y, velocidad, posición_x, posición_y);
+
+
+                    CAvion avion = new CAvion(identificador, compañía, origen_x, origen_y, destino_x, destino_y, velocidad, posición_x, posición_y, origen_x, origen_y);
                     
                     this.vuelos[i] = avion;
 
@@ -121,9 +123,9 @@ namespace ListaDeVuelos
             for (int i = 0; i < this.numvuelos; i++)
             {
 
-                double cateto_opuesto = Math.Abs(((this.vuelos[i].GetDestino_Y()) - (this.vuelos[i].GetOrigen_Y())));
-                double cateto_contiguo = Math.Abs(((this.vuelos[i].GetDestino_X()) - (this.vuelos[i].GetOrigen_X())));
-                double hipotenusa = Math.Sqrt(Math.Pow(this.vuelos[i].GetDestino_X() - this.vuelos[i].GetOrigen_X(), 2) + Math.Pow(this.vuelos[i].GetDestino_Y() - this.vuelos[i].GetOrigen_Y(), 2));
+                double cateto_opuesto = this.vuelos[i].GetDestino_Y() - this.vuelos[i].GetOrigen_Y();
+                double cateto_contiguo = this.vuelos[i].GetDestino_X() - this.vuelos[i].GetOrigen_X();
+                double hipotenusa = Math.Sqrt(Math.Pow(cateto_contiguo, 2) + Math.Pow(cateto_opuesto, 2));
 
                 double coseno = cateto_contiguo / hipotenusa;
                 double seno = cateto_opuesto / hipotenusa;
@@ -131,8 +133,8 @@ namespace ListaDeVuelos
                 double Avance_x = (this.vuelos[i].GetSpeed()) * (tiempo/60) * coseno;
                 double Avance_y = (this.vuelos[i].GetSpeed()) * (tiempo/60) * seno;
 
-                double nueva_posicion_x = Avance_x + this.vuelos[i].GetPosition_X();
-                double nueva_posicion_y = -Avance_y + this.vuelos[i].GetPosition_Y();
+                double nueva_posicion_x = Avance_x + this.vuelos[i].GetOrigen_X();
+                double nueva_posicion_y = Avance_y + this.vuelos[i].GetOrigen_Y();
 
 
                 this.vuelos[i].SetPosition_X(nueva_posicion_x);
