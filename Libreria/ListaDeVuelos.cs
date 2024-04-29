@@ -9,8 +9,9 @@ namespace ListaDeVuelos
 {
     public class CListaDeVuelos
     {
-        const int MAX_AVIONES = 5;
+        const int MAX_AVIONES = 100;
         CAvion[] vuelos;
+        int numvuelos;
 
         public CListaDeVuelos()
         {
@@ -22,8 +23,13 @@ namespace ListaDeVuelos
             return (this.vuelos);
         }
 
+        public int GetNum()
+        {
+            return (numvuelos);
+        }
+
         // FUNCIÓN PARA CARGAR LA LISTA DE VUELOS DEL FICHERO
-        public int CargarVuelos(string nombre_fichero, CListaDeVuelos vuelos)
+        public int CargarVuelos(string nombre_fichero)
         {
             try
             {
@@ -46,11 +52,11 @@ namespace ListaDeVuelos
 
                     CAvion avion = new CAvion(identificador, compañía, origen_x, origen_y, destino_x, destino_y, velocidad, posición_x, posición_y);
                     
-                    vuelos.vuelos[i] = avion;
+                    this.vuelos[i] = avion;
 
                     linea = fichero.ReadLine();
                     i++;
-
+                    numvuelos++;
                 }
 
                 fichero.Close();
@@ -76,7 +82,7 @@ namespace ListaDeVuelos
         {
             try
             {
-                for (int i = 0; i < 5; i++)
+                for (int i = 0; i < this.numvuelos; i++)
                 {
                     this.vuelos[i].SetOrigen_X(this.vuelos[i].GetPosition_X());
                     this.vuelos[i].SetOrigen_Y(this.vuelos[i].GetPosition_Y());
@@ -110,44 +116,44 @@ namespace ListaDeVuelos
 
         // FUNCIÓN QUE CALCULA LA SIMULACION DE LOS AVIONES EN UN TIEMPO
 
-        public void Calculo(CListaDeVuelos lista, double tiempo)
+        public void Calculo(double tiempo)
         {
-            for (int i = 0; i < lista.vuelos.Length; i++)
+            for (int i = 0; i < this.numvuelos; i++)
             {
 
-                double cateto_opuesto = Math.Abs(((lista.vuelos[i].GetDestino_Y()) - (lista.vuelos[i].GetPosition_Y())));
-                double cateto_contiguo = Math.Abs(((lista.vuelos[i].GetDestino_X()) - (lista.vuelos[i].GetPosition_X())));
-                double hipotenusa = Math.Sqrt(Math.Pow(lista.vuelos[i].GetDestino_X() - lista.vuelos[i].GetPosition_X(), 2) + Math.Pow(lista.vuelos[i].GetDestino_Y() - lista.vuelos[i].GetPosition_Y(), 2));
+                double cateto_opuesto = Math.Abs(((this.vuelos[i].GetDestino_Y()) - (this.vuelos[i].GetOrigen_Y())));
+                double cateto_contiguo = Math.Abs(((this.vuelos[i].GetDestino_X()) - (this.vuelos[i].GetOrigen_X())));
+                double hipotenusa = Math.Sqrt(Math.Pow(this.vuelos[i].GetDestino_X() - this.vuelos[i].GetOrigen_X(), 2) + Math.Pow(this.vuelos[i].GetDestino_Y() - this.vuelos[i].GetOrigen_Y(), 2));
 
                 double coseno = cateto_contiguo / hipotenusa;
                 double seno = cateto_opuesto / hipotenusa;
+                
+                double Avance_x = (this.vuelos[i].GetSpeed()) * (tiempo/60) * coseno;
+                double Avance_y = (this.vuelos[i].GetSpeed()) * (tiempo/60) * seno;
 
-                double Avance_x = (lista.vuelos[i].GetSpeed() / 60) * tiempo * coseno;
-                double Avance_y = (lista.vuelos[i].GetSpeed() / 60) * tiempo * seno;
-
-                double nueva_posicion_x = Avance_x + lista.vuelos[i].GetPosition_X();
-                double nueva_posicion_y = -Avance_y + lista.vuelos[i].GetPosition_Y();
+                double nueva_posicion_x = Avance_x + this.vuelos[i].GetPosition_X();
+                double nueva_posicion_y = -Avance_y + this.vuelos[i].GetPosition_Y();
 
 
-                lista.vuelos[i].SetPosition_X(nueva_posicion_x);
-                lista.vuelos[i].SetPosition_Y(nueva_posicion_y);
+                this.vuelos[i].SetPosition_X(nueva_posicion_x);
+                this.vuelos[i].SetPosition_Y(nueva_posicion_y);
 
             }
         }
 
         // FUNCIÓN QUE IMPRIME LA INFORMACIÓN DE LOS AVIONES
-        public void Imprimir_Menú_Aviones(CListaDeVuelos lista)
+        public void Imprimir_Menú_Aviones()
         {
             int i;
             for (i = 0; i < MAX_AVIONES; i++)
             {
                 Console.WriteLine("----------------------------------------------");
-                Console.WriteLine(" El ID es {0}", lista.vuelos[i].GetID());
-                Console.WriteLine(" La compañía es {0}", lista.vuelos[i].GetComp());
-                Console.WriteLine(" El origen es ({0}, {1}) ", lista.vuelos[i].GetOrigen_X(), lista.vuelos[i].GetOrigen_Y());
-                Console.WriteLine(" El destino ({0}, {1})", lista.vuelos[i].GetDestino_X(), lista.vuelos[i].GetDestino_Y());
-                Console.WriteLine(" La velocidad {0}", lista.vuelos[i].GetSpeed());
-                Console.WriteLine(" La posición del avión es ({0}, {1})", lista.vuelos[i].GetPosition_X(), lista.vuelos[i].GetPosition_Y());
+                Console.WriteLine(" El ID es {0}", this.vuelos[i].GetID());
+                Console.WriteLine(" La compañía es {0}", this.vuelos[i].GetComp());
+                Console.WriteLine(" El origen es ({0}, {1}) ", this.vuelos[i].GetOrigen_X(), this.vuelos[i].GetOrigen_Y());
+                Console.WriteLine(" El destino ({0}, {1})", this.vuelos[i].GetDestino_X(), this.vuelos[i].GetDestino_Y());
+                Console.WriteLine(" La velocidad {0}", this.vuelos[i].GetSpeed());
+                Console.WriteLine(" La posición del avión es ({0}, {1})", this.vuelos[i].GetPosition_X(), this.vuelos[i].GetPosition_Y());
                 Console.WriteLine("----------------------------------------------");
             }
 

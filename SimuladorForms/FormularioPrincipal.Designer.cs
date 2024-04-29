@@ -43,6 +43,9 @@
             label1 = new Label();
             timer1 = new System.Windows.Forms.Timer(components);
             button2 = new Button();
+            button3 = new Button();
+            textBox2 = new TextBox();
+            label2 = new Label();
             menuStrip1.SuspendLayout();
             SuspendLayout();
             // 
@@ -107,13 +110,13 @@
             button1.Name = "button1";
             button1.Size = new Size(167, 60);
             button1.TabIndex = 2;
-            button1.Text = "SIMULAR";
+            button1.Text = "SIMULACIÓN AUTO";
             button1.UseVisualStyleBackColor = true;
             button1.Click += button1_Click;
             // 
             // textBox1
             // 
-            textBox1.Location = new Point(880, 185);
+            textBox1.Location = new Point(880, 232);
             textBox1.Name = "textBox1";
             textBox1.Size = new Size(167, 27);
             textBox1.TabIndex = 3;
@@ -121,7 +124,7 @@
             // label1
             // 
             label1.AutoSize = true;
-            label1.Location = new Point(891, 162);
+            label1.Location = new Point(891, 209);
             label1.Name = "label1";
             label1.Size = new Size(137, 20);
             label1.TabIndex = 4;
@@ -142,11 +145,40 @@
             button2.UseVisualStyleBackColor = true;
             button2.Click += button2_Click;
             // 
+            // button3
+            // 
+            button3.Location = new Point(880, 114);
+            button3.Name = "button3";
+            button3.Size = new Size(167, 60);
+            button3.TabIndex = 6;
+            button3.Text = "SIMULACIÓN MANUAL";
+            button3.UseVisualStyleBackColor = true;
+            button3.Click += button3_Click;
+            // 
+            // textBox2
+            // 
+            textBox2.Location = new Point(880, 300);
+            textBox2.Name = "textBox2";
+            textBox2.Size = new Size(167, 27);
+            textBox2.TabIndex = 7;
+            // 
+            // label2
+            // 
+            label2.AutoSize = true;
+            label2.Location = new Point(935, 277);
+            label2.Name = "label2";
+            label2.Size = new Size(48, 20);
+            label2.TabIndex = 8;
+            label2.Text = "Ciclos";
+            // 
             // FormularioPrincipal
             // 
             AutoScaleDimensions = new SizeF(8F, 20F);
             AutoScaleMode = AutoScaleMode.Font;
             ClientSize = new Size(1130, 523);
+            Controls.Add(label2);
+            Controls.Add(textBox2);
+            Controls.Add(button3);
             Controls.Add(button2);
             Controls.Add(label1);
             Controls.Add(textBox1);
@@ -178,5 +210,8 @@
         private Label label1;
         private System.Windows.Forms.Timer timer1;
         private Button button2;
+        private Button button3;
+        private TextBox textBox2;
+        private Label label2;
     }
 }

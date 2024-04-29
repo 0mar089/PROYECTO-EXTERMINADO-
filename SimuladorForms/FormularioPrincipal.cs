@@ -24,11 +24,12 @@ namespace SimuladorForms
         int tag;
         double tiempo;
         int i;
-        int cont = 5;
+        int ciclos;
+        Point[] polygonPoints = new Point[4];
         bool verificar = false;
         bool verif_cargar = false;
         string filename;
-        string filename_s;
+        bool manual;
 
         public FormularioPrincipal()
         {
@@ -47,7 +48,7 @@ namespace SimuladorForms
         public void CargarAviones()
         {
 
-            for (int i = 0; i < lista.GetNumVuelos(); i++)
+            for (int i = 0; i < lista.GetNum(); i++)
             {
                 PictureBox aircraft = new PictureBox();
                 aircraft.ClientSize = new Size(20, 20);
@@ -130,7 +131,7 @@ namespace SimuladorForms
                 {
                     MessageBox.Show(filename);
                     MessageBox.Show("Fichero Guardado");
-                    this.cont = 5;
+                    // cuidao
                 }
                 else if (err == -2)
                 {
@@ -157,9 +158,9 @@ namespace SimuladorForms
         {
             if (openFileDialog1.ShowDialog() == DialogResult.OK)
             {
-                filename_s = openFileDialog1.FileName;
+                this.filename = openFileDialog1.FileName;
 
-                int p = Sector.CargarSector(filename_s);
+                int p = Sector.CargarSector(this.filename);
 
                 if (p == -1)
                 {
@@ -187,73 +188,57 @@ namespace SimuladorForms
         // FUNCION PARA PINTAR EL PANEL DEL SECTOR
         private void panel1_Paint(object sender, PaintEventArgs e)
         {
-            if (this.verificar == true) { 
-                List<Point> puntos = new List<Point>();
-                try
-                {
-                    StreamReader fichero = new StreamReader(filename_s);
-                    string linea = fichero.ReadLine();
+            System.Drawing.Graphics graphics = e.Graphics;
+            if (this.verificar == false)
+            {
 
-                    while (linea != null)
-                    {
-                        string[] trozos = linea.Split(" , ");
-                        int x = 0;
-                        int y = 0;
-                        for (int i = 2; i < trozos.Length; i++)
-                        {
-                            if (i % 2 == 0)
-                            {
-                                x = Convert.ToInt32(trozos[i]);
-                            }
-                            else
-                            {
-                                y = Convert.ToInt32(trozos[i]);
-                                Point p = new Point(x, y);
-                                puntos.Add(p);
-                                x = 0;
-                                y = 0;
-                            }
-                        }
+                Pen myPen = new Pen(Color.Green, 4);
 
-                        linea = fichero.ReadLine();
-                    }
-
-                    fichero.Close();
-
-                }
-                catch (FileNotFoundException)
-                {
-                    MessageBox.Show("Falta el fichero");
-                }
-                Point[] poligono = new Point[puntos.Count()];
-                for (int i = 0; i < poligono.Length; i++)
-                {
-                    poligono[i] = puntos[i];
-                }
-                System.Drawing.Graphics graphics = e.Graphics;
+                this.polygonPoints[0] = new Point(Convert.ToInt32(Sector.Get_Posrec_x()), Convert.ToInt32(Sector.Get_Posrec_y()));
+                this.polygonPoints[1] = new Point(Convert.ToInt32(Sector.Get_Posrec_x()), Convert.ToInt32(Sector.Get_Posrec_y()) + Convert.ToInt32(Sector.Get_Altorec()));
+                this.polygonPoints[2] = new Point(Convert.ToInt32(Sector.Get_Posrec_x()) + Convert.ToInt32(Sector.Get_Anchorec()), Convert.ToInt32(Sector.Get_Posrec_y()) + Convert.ToInt32(Sector.Get_Altorec()));
+                this.polygonPoints[3] = new Point(Convert.ToInt32(Sector.Get_Posrec_x()) + Convert.ToInt32(Sector.Get_Anchorec()), Convert.ToInt32(Sector.Get_Posrec_y()));
+                graphics.DrawPolygon(myPen, this.polygonPoints);
+                myPen.Dispose();
+            }
+            else
+            {
                 if (Sector.CalculoSector(this.lista, this.Sector) > 33.33 && Sector.CalculoSector(this.lista, this.Sector) < 66.66)
                 {
                     Pen myPen = new Pen(Color.Yellow, 4);
-                    graphics.DrawPolygon(myPen, poligono);
+
+                    this.polygonPoints[0] = new Point(Convert.ToInt32(Sector.Get_Posrec_x()), Convert.ToInt32(Sector.Get_Posrec_y()));
+                    this.polygonPoints[1] = new Point(Convert.ToInt32(Sector.Get_Posrec_x()), Convert.ToInt32(Sector.Get_Posrec_y()) + Convert.ToInt32(Sector.Get_Altorec()));
+                    this.polygonPoints[2] = new Point(Convert.ToInt32(Sector.Get_Posrec_x()) + Convert.ToInt32(Sector.Get_Anchorec()), Convert.ToInt32(Sector.Get_Posrec_y()) + Convert.ToInt32(Sector.Get_Altorec()));
+                    this.polygonPoints[3] = new Point(Convert.ToInt32(Sector.Get_Posrec_x()) + Convert.ToInt32(Sector.Get_Anchorec()), Convert.ToInt32(Sector.Get_Posrec_y()));
+
+
+                    graphics.DrawPolygon(myPen, this.polygonPoints);
                     myPen.Dispose();
                 }
-                else if (Sector.CalculoSector(this.lista, this.Sector) > 66.66)
+                else if (Sector.CalculoSector(this.lista, this.Sector) >= 66.66)
                 {
                     Pen myPen = new Pen(Color.Red, 4);
-                    graphics.DrawPolygon(myPen, poligono);
+                    this.polygonPoints[0] = new Point(Convert.ToInt32(Sector.Get_Posrec_x()), Convert.ToInt32(Sector.Get_Posrec_y()));
+                    this.polygonPoints[1] = new Point(Convert.ToInt32(Sector.Get_Posrec_x()), Convert.ToInt32(Sector.Get_Posrec_y()) + Convert.ToInt32(Sector.Get_Altorec()));
+                    this.polygonPoints[2] = new Point(Convert.ToInt32(Sector.Get_Posrec_x()) + Convert.ToInt32(Sector.Get_Anchorec()), Convert.ToInt32(Sector.Get_Posrec_y()) + Convert.ToInt32(Sector.Get_Altorec()));
+                    this.polygonPoints[3] = new Point(Convert.ToInt32(Sector.Get_Posrec_x()) + Convert.ToInt32(Sector.Get_Anchorec()), Convert.ToInt32(Sector.Get_Posrec_y()));
+                    graphics.DrawPolygon(myPen, this.polygonPoints);
                     myPen.Dispose();
                 }
                 else
                 {
                     Pen myPen = new Pen(Color.Green, 4);
-                    graphics.DrawPolygon(myPen, poligono);
+                    this.polygonPoints[0] = new Point(Convert.ToInt32(Sector.Get_Posrec_x()), Convert.ToInt32(Sector.Get_Posrec_y()));
+                    this.polygonPoints[1] = new Point(Convert.ToInt32(Sector.Get_Posrec_x()), Convert.ToInt32(Sector.Get_Posrec_y()) + Convert.ToInt32(Sector.Get_Altorec()));
+                    this.polygonPoints[2] = new Point(Convert.ToInt32(Sector.Get_Posrec_x()) + Convert.ToInt32(Sector.Get_Anchorec()), Convert.ToInt32(Sector.Get_Posrec_y()) + Convert.ToInt32(Sector.Get_Altorec()));
+                    this.polygonPoints[3] = new Point(Convert.ToInt32(Sector.Get_Posrec_x()) + Convert.ToInt32(Sector.Get_Anchorec()), Convert.ToInt32(Sector.Get_Posrec_y()));
+                    graphics.DrawPolygon(myPen, this.polygonPoints);
                     myPen.Dispose();
                 }
-                 
             }
 
         }
-
 
         public CAvion[] Get_Vector()
         {
@@ -280,16 +265,18 @@ namespace SimuladorForms
             }
         }
 
-        // FUNCION PARA SIMULAR
+        // FUNCION PARA SIMULAR AUTO
         private void button1_Click(object sender, EventArgs e)
         {
+
             try
             {
-                this.cont = 5;
+                this.ciclos = Convert.ToInt32(textBox2.Text);
                 this.tiempo = Convert.ToDouble(textBox1.Text);
-                lista.Calculo(this.tiempo / this.cont);
+                lista.Calculo(this.tiempo / this.ciclos);
                 timer1.Interval = 500;
                 timer1.Enabled = true;
+                this.manual = false;
             }
             catch (FormatException)
             {
@@ -306,25 +293,28 @@ namespace SimuladorForms
         private void timer1_Tick(object sender, EventArgs e)
         {
 
-            for (int w = 0; w < lista.GetNumVuelos(); w++)
+            if(this.manual == false)
             {
+                for (int w = 0; w < lista.GetNum(); w++)
+                {
 
-                int posicionpicturex = (Convert.ToInt32(vuelos[w].GetPosition_X()));
-                int posicionpicturey = (Convert.ToInt32(vuelos[w].GetPosition_Y()));
+                    int posicionpicturex = (Convert.ToInt32(vuelos[w].GetPosition_X()));
+                    int posicionpicturey = (Convert.ToInt32(vuelos[w].GetPosition_Y()));
 
-                aircraft_vector[w].Location = new Point(posicionpicturex, posicionpicturey);
+                    aircraft_vector[w].Location = new Point(posicionpicturex, posicionpicturey);
 
-            }
+                }
 
-            if (this.cont == 1)
-            {
-                timer1.Stop();
-                VerificarAviones();
-            }
-            else
-            {
-                this.cont--;
-                lista.Calculo(this.tiempo / this.cont);
+                if (this.ciclos == 1)
+                {
+                    timer1.Stop();
+                    VerificarAviones();
+                }
+                else
+                {
+                    this.ciclos--;
+                    lista.Calculo(this.tiempo / this.ciclos);
+                }
             }
             panel1.Invalidate();
 
@@ -342,8 +332,7 @@ namespace SimuladorForms
 
             if (this.verif_cargar == true)
             {
-                this.cont = 5;
-                for (int i = 0; i < lista.GetNumVuelos(); i++)
+                for (int i = 0; i < lista.GetNum(); i++)
                 {
                     this.vuelos[i].ResetPosition();
                     aircraft_vector[i].Location = new Point(Convert.ToInt32(this.vuelos[i].GetPosition_X()), Convert.ToInt32(this.vuelos[i].GetPosition_Y()));
@@ -355,6 +344,31 @@ namespace SimuladorForms
                 MessageBox.Show("No reinicies si no tienes nada cargado");
             }
 
+        }
+
+        // SIMULACIÓN MANUAL
+        private void button3_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                this.tiempo = Convert.ToDouble(textBox1.Text);
+                lista.Calculo(this.tiempo);
+                for (int w = 0; w < lista.GetNum(); w++)
+                {
+
+                    int posicionpicturex = (Convert.ToInt32(vuelos[w].GetPosition_X()));
+                    int posicionpicturey = (Convert.ToInt32(vuelos[w].GetPosition_Y()));
+
+                    aircraft_vector[w].Location = new Point(posicionpicturex, posicionpicturey);
+
+                }
+                this.manual = true;
+                
+            }
+            catch (FormatException)
+            {
+                MessageBox.Show("Datos introducidos incorrectos");
+            }
         }
     }
 }
