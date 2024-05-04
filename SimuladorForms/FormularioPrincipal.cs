@@ -25,12 +25,11 @@ namespace SimuladorForms
         double tiempo;
         int i;
         int ciclos;
-        Point[] polygonPoints = new Point[4];
-        bool verificar = false;
+        int verificar;
         bool verif_cargar = false;
         string filename;
         bool manual;
-        List<Point> Vertices;
+        List<Point> Vertices = new List<Point>();
 
         public FormularioPrincipal()
         {
@@ -107,6 +106,7 @@ namespace SimuladorForms
                 {
                     MessageBox.Show("Fichero Cargado");
                     this.verif_cargar = true;
+                    this.verificar = -1;
                     CargarAviones();
                 }
             }
@@ -179,8 +179,11 @@ namespace SimuladorForms
                 else
                 {
                     MessageBox.Show("Fichero Cargado");
-                    this.verificar = true;
-
+                    this.verificar = 1;
+                    this.Vertices.Add(new Point(Convert.ToInt32(Sector.Get_Posrec_x()), Convert.ToInt32(Sector.Get_Posrec_y())));
+                    this.Vertices.Add(new Point(Convert.ToInt32(Sector.Get_Posrec_x()), Convert.ToInt32(Sector.Get_Posrec_y()) + Convert.ToInt32(Sector.Get_Altorec())));
+                    this.Vertices.Add(new Point(Convert.ToInt32(Sector.Get_Posrec_x()) + Convert.ToInt32(Sector.Get_Anchorec()), Convert.ToInt32(Sector.Get_Posrec_y()) + Convert.ToInt32(Sector.Get_Altorec())));
+                    this.Vertices.Add(new Point(Convert.ToInt32(Sector.Get_Posrec_x()) + Convert.ToInt32(Sector.Get_Anchorec()), Convert.ToInt32(Sector.Get_Posrec_y())));
                     panel1.Invalidate();
                 }
             }
@@ -190,51 +193,31 @@ namespace SimuladorForms
         private void panel1_Paint(object sender, PaintEventArgs e)
         {
             System.Drawing.Graphics graphics = e.Graphics;
-            if (this.verificar == false)
+            if (this.verificar == 1)
             {
 
                 Pen myPen = new Pen(Color.Green, 4);
-
-                this.polygonPoints[0] = new Point(Convert.ToInt32(Sector.Get_Posrec_x()), Convert.ToInt32(Sector.Get_Posrec_y()));
-                this.polygonPoints[1] = new Point(Convert.ToInt32(Sector.Get_Posrec_x()), Convert.ToInt32(Sector.Get_Posrec_y()) + Convert.ToInt32(Sector.Get_Altorec()));
-                this.polygonPoints[2] = new Point(Convert.ToInt32(Sector.Get_Posrec_x()) + Convert.ToInt32(Sector.Get_Anchorec()), Convert.ToInt32(Sector.Get_Posrec_y()) + Convert.ToInt32(Sector.Get_Altorec()));
-                this.polygonPoints[3] = new Point(Convert.ToInt32(Sector.Get_Posrec_x()) + Convert.ToInt32(Sector.Get_Anchorec()), Convert.ToInt32(Sector.Get_Posrec_y()));
-                graphics.DrawPolygon(myPen, this.polygonPoints);
+                graphics.DrawPolygon(myPen, this.Vertices.ToArray());
                 myPen.Dispose();
             }
-            else
+            else if (this.verificar == -1)
             {
                 if (Sector.CalculoSector(this.lista, this.Sector) > 33.33 && Sector.CalculoSector(this.lista, this.Sector) < 66.66)
                 {
                     Pen myPen = new Pen(Color.Yellow, 4);
-
-                    this.polygonPoints[0] = new Point(Convert.ToInt32(Sector.Get_Posrec_x()), Convert.ToInt32(Sector.Get_Posrec_y()));
-                    this.polygonPoints[1] = new Point(Convert.ToInt32(Sector.Get_Posrec_x()), Convert.ToInt32(Sector.Get_Posrec_y()) + Convert.ToInt32(Sector.Get_Altorec()));
-                    this.polygonPoints[2] = new Point(Convert.ToInt32(Sector.Get_Posrec_x()) + Convert.ToInt32(Sector.Get_Anchorec()), Convert.ToInt32(Sector.Get_Posrec_y()) + Convert.ToInt32(Sector.Get_Altorec()));
-                    this.polygonPoints[3] = new Point(Convert.ToInt32(Sector.Get_Posrec_x()) + Convert.ToInt32(Sector.Get_Anchorec()), Convert.ToInt32(Sector.Get_Posrec_y()));
-
-
-                    graphics.DrawPolygon(myPen, this.polygonPoints);
+                    graphics.DrawPolygon(myPen, this.Vertices.ToArray());
                     myPen.Dispose();
                 }
                 else if (Sector.CalculoSector(this.lista, this.Sector) >= 66.66)
                 {
                     Pen myPen = new Pen(Color.Red, 4);
-                    this.polygonPoints[0] = new Point(Convert.ToInt32(Sector.Get_Posrec_x()), Convert.ToInt32(Sector.Get_Posrec_y()));
-                    this.polygonPoints[1] = new Point(Convert.ToInt32(Sector.Get_Posrec_x()), Convert.ToInt32(Sector.Get_Posrec_y()) + Convert.ToInt32(Sector.Get_Altorec()));
-                    this.polygonPoints[2] = new Point(Convert.ToInt32(Sector.Get_Posrec_x()) + Convert.ToInt32(Sector.Get_Anchorec()), Convert.ToInt32(Sector.Get_Posrec_y()) + Convert.ToInt32(Sector.Get_Altorec()));
-                    this.polygonPoints[3] = new Point(Convert.ToInt32(Sector.Get_Posrec_x()) + Convert.ToInt32(Sector.Get_Anchorec()), Convert.ToInt32(Sector.Get_Posrec_y()));
-                    graphics.DrawPolygon(myPen, this.polygonPoints);
+                    graphics.DrawPolygon(myPen, this.Vertices.ToArray());
                     myPen.Dispose();
                 }
                 else
                 {
                     Pen myPen = new Pen(Color.Green, 4);
-                    this.polygonPoints[0] = new Point(Convert.ToInt32(Sector.Get_Posrec_x()), Convert.ToInt32(Sector.Get_Posrec_y()));
-                    this.polygonPoints[1] = new Point(Convert.ToInt32(Sector.Get_Posrec_x()), Convert.ToInt32(Sector.Get_Posrec_y()) + Convert.ToInt32(Sector.Get_Altorec()));
-                    this.polygonPoints[2] = new Point(Convert.ToInt32(Sector.Get_Posrec_x()) + Convert.ToInt32(Sector.Get_Anchorec()), Convert.ToInt32(Sector.Get_Posrec_y()) + Convert.ToInt32(Sector.Get_Altorec()));
-                    this.polygonPoints[3] = new Point(Convert.ToInt32(Sector.Get_Posrec_x()) + Convert.ToInt32(Sector.Get_Anchorec()), Convert.ToInt32(Sector.Get_Posrec_y()));
-                    graphics.DrawPolygon(myPen, this.polygonPoints);
+                    graphics.DrawPolygon(myPen, this.Vertices.ToArray());
                     myPen.Dispose();
                 }
             }
@@ -294,7 +277,7 @@ namespace SimuladorForms
         private void timer1_Tick(object sender, EventArgs e)
         {
 
-            if(this.manual == false)
+            if (this.manual == false)
             {
                 for (int w = 0; w < lista.GetNum(); w++)
                 {
@@ -370,7 +353,7 @@ namespace SimuladorForms
 
                 }
                 this.manual = true;
-                
+
             }
             catch (FormatException)
             {
