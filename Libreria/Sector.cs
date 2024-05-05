@@ -75,6 +75,7 @@ namespace Sector
                 {
                     string[] trozos = linea.Split(" , ");
                     this.Set_ID(trozos[0]);
+                    
                     this.Set_Capmax(Convert.ToInt32(trozos[1]));
                     this.Set_Posrec_x(Convert.ToDouble(trozos[2]));
                     this.Set_Posrec_y(Convert.ToDouble(trozos[3]));

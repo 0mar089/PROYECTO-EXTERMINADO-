@@ -20,7 +20,7 @@ namespace SimuladorForms
         const int MAX = 1000;
         CListaDeVuelos lista = new CListaDeVuelos();
         CSector Sector = new CSector();
-        CAvion[] vuelos;
+        CAvion[] vuelos = new CAvion[100];
         int tag;
         double tiempo;
         int i;
@@ -30,13 +30,20 @@ namespace SimuladorForms
         string filename;
         bool manual;
         List<Point> Vertices = new List<Point>();
+        int retraso;
+        int contador2;
+        int avion_escogido;
+        bool verif_sector;
+        Stack<CAvion[]> Pila = new Stack<CAvion[]>();
+        CAvion[] copia_vuelos = new CAvion[100];
+
 
         public FormularioPrincipal()
         {
             InitializeComponent();
             //ResetListaAviones();
 
-            vuelos = lista.GetLista();
+            this.vuelos = lista.GetLista();
         }
 
         private void Form1_Load(object sender, EventArgs e)
@@ -44,6 +51,12 @@ namespace SimuladorForms
 
         }
 
+        public void SetRetraso(int retraso, int tag)
+        {
+            this.retraso = retraso;
+            this.vuelos[tag].SetRetardo(true);
+            this.avion_escogido = tag;
+        }
         // FUNCION PARA CARGAR LAS IMAGENES DE LOS AVIONES
         public void CargarAviones()
         {
@@ -117,6 +130,7 @@ namespace SimuladorForms
 
         }
 
+
         // FUNCION PARA GUARDAR LOS AVIONES
         private void guardarFicheroToolStripMenuItem_Click(object sender, EventArgs e)
         {
@@ -154,6 +168,24 @@ namespace SimuladorForms
 
         }
 
+
+        private List<Point> CalcularVertices()
+        {
+
+            int x = Convert.ToInt32(Sector.Get_Posrec_x());
+            int y = Convert.ToInt32(Sector.Get_Posrec_y());
+            int width = Convert.ToInt32(Sector.Get_Anchorec());
+            int height = Convert.ToInt32(Sector.Get_Altorec());
+
+
+            this.Vertices.Add(new Point(x, y));
+            this.Vertices.Add(new Point(x, y + height));
+            this.Vertices.Add(new Point(x + width, y + height));
+            this.Vertices.Add(new Point(x + width, y));
+
+            return this.Vertices;
+        }
+
         // FUNCION PARA CARGAR EL SECTOR
         private void cargarSectorToolStripMenuItem_Click(object sender, EventArgs e)
         {
@@ -180,48 +212,53 @@ namespace SimuladorForms
                 {
                     MessageBox.Show("Fichero Cargado");
                     this.verificar = 1;
-                    this.Vertices.Add(new Point(Convert.ToInt32(Sector.Get_Posrec_x()), Convert.ToInt32(Sector.Get_Posrec_y())));
-                    this.Vertices.Add(new Point(Convert.ToInt32(Sector.Get_Posrec_x()), Convert.ToInt32(Sector.Get_Posrec_y()) + Convert.ToInt32(Sector.Get_Altorec())));
-                    this.Vertices.Add(new Point(Convert.ToInt32(Sector.Get_Posrec_x()) + Convert.ToInt32(Sector.Get_Anchorec()), Convert.ToInt32(Sector.Get_Posrec_y()) + Convert.ToInt32(Sector.Get_Altorec())));
-                    this.Vertices.Add(new Point(Convert.ToInt32(Sector.Get_Posrec_x()) + Convert.ToInt32(Sector.Get_Anchorec()), Convert.ToInt32(Sector.Get_Posrec_y())));
+                    this.verif_sector = true;
+                    //this.Vertices.Add(new Point(Convert.ToInt32(Sector.Get_Posrec_x()), Convert.ToInt32(Sector.Get_Posrec_y())));
+                    //this.Vertices.Add(new Point(Convert.ToInt32(Sector.Get_Posrec_x()), Convert.ToInt32(Sector.Get_Posrec_y()) + Convert.ToInt32(Sector.Get_Altorec())));
+                    //this.Vertices.Add(new Point(Convert.ToInt32(Sector.Get_Posrec_x()) + Convert.ToInt32(Sector.Get_Anchorec()), Convert.ToInt32(Sector.Get_Posrec_y()) + Convert.ToInt32(Sector.Get_Altorec())));
+                    //this.Vertices.Add(new Point(Convert.ToInt32(Sector.Get_Posrec_x()) + Convert.ToInt32(Sector.Get_Anchorec()), Convert.ToInt32(Sector.Get_Posrec_y())));
+                    this.Vertices = CalcularVertices();
                     panel1.Invalidate();
                 }
             }
         }
 
+
         // FUNCION PARA PINTAR EL PANEL DEL SECTOR
         private void panel1_Paint(object sender, PaintEventArgs e)
         {
-            System.Drawing.Graphics graphics = e.Graphics;
-            if (this.verificar == 1)
+            if (this.verif_sector == true)
             {
+                System.Drawing.Graphics graphics = e.Graphics;
+                if (this.verificar == 1)
+                {
 
-                Pen myPen = new Pen(Color.Green, 4);
-                graphics.DrawPolygon(myPen, this.Vertices.ToArray());
-                myPen.Dispose();
-            }
-            else if (this.verificar == -1)
-            {
-                if (Sector.CalculoSector(this.lista, this.Sector) > 33.33 && Sector.CalculoSector(this.lista, this.Sector) < 66.66)
-                {
-                    Pen myPen = new Pen(Color.Yellow, 4);
-                    graphics.DrawPolygon(myPen, this.Vertices.ToArray());
-                    myPen.Dispose();
-                }
-                else if (Sector.CalculoSector(this.lista, this.Sector) >= 66.66)
-                {
-                    Pen myPen = new Pen(Color.Red, 4);
-                    graphics.DrawPolygon(myPen, this.Vertices.ToArray());
-                    myPen.Dispose();
-                }
-                else
-                {
                     Pen myPen = new Pen(Color.Green, 4);
                     graphics.DrawPolygon(myPen, this.Vertices.ToArray());
-                    myPen.Dispose();
+                    //myPen.Dispose();
+                }
+                else if (this.verificar == -1)
+                {
+                    if (Sector.CalculoSector(this.lista, this.Sector) > 33.33 && Sector.CalculoSector(this.lista, this.Sector) < 66.66)
+                    {
+                        Pen myPen = new Pen(Color.Yellow, 4);
+                        graphics.DrawPolygon(myPen, this.Vertices.ToArray());
+                        myPen.Dispose();
+                    }
+                    else if (Sector.CalculoSector(this.lista, this.Sector) >= 66.66)
+                    {
+                        Pen myPen = new Pen(Color.Red, 4);
+                        graphics.DrawPolygon(myPen, this.Vertices.ToArray());
+                        myPen.Dispose();
+                    }
+                    else
+                    {
+                        Pen myPen = new Pen(Color.Green, 4);
+                        graphics.DrawPolygon(myPen, this.Vertices.ToArray());
+                        myPen.Dispose();
+                    }
                 }
             }
-
         }
 
         public CAvion[] Get_Vector()
@@ -258,7 +295,7 @@ namespace SimuladorForms
                 this.ciclos = Convert.ToInt32(textBox2.Text);
                 this.tiempo = Convert.ToDouble(textBox1.Text);
                 lista.Calculo(this.tiempo / this.ciclos);
-                timer1.Interval = 500;
+                timer1.Interval = 1000;
                 timer1.Enabled = true;
                 this.manual = false;
             }
@@ -279,15 +316,30 @@ namespace SimuladorForms
 
             if (this.manual == false)
             {
+                this.copia_vuelos = this.vuelos;
+                this.Pila.Push(this.copia_vuelos);
                 for (int w = 0; w < lista.GetNum(); w++)
                 {
 
-                    int posicionpicturex = (Convert.ToInt32(vuelos[w].GetPosition_X()));
-                    int posicionpicturey = (Convert.ToInt32(vuelos[w].GetPosition_Y()));
+                    if (this.vuelos[w].GetRetardo() == false)
+                    {
+                        int posicionpicturex = (Convert.ToInt32(vuelos[w].GetPosition_X()));
+                        int posicionpicturey = (Convert.ToInt32(vuelos[w].GetPosition_Y()));
 
-                    aircraft_vector[w].Location = new Point(posicionpicturex, posicionpicturey);
+                        aircraft_vector[w].Location = new Point(posicionpicturex, posicionpicturey);
+
+                    }
+                    else
+                    {
+                        this.contador2 = 1;
+                        timer2.Enabled = true;
+                        timer2.Interval = this.retraso * 1000;
+                    }
+
 
                 }
+
+
 
                 if (this.ciclos == 1)
                 {
@@ -301,7 +353,6 @@ namespace SimuladorForms
                 }
             }
             panel1.Invalidate();
-
 
         }
 
@@ -337,6 +388,10 @@ namespace SimuladorForms
         {
             try
             {
+
+
+                
+
                 this.tiempo = Convert.ToDouble(textBox1.Text);
                 lista.Calculo(this.tiempo);
                 for (int w = 0; w < lista.GetNum(); w++)
@@ -352,12 +407,43 @@ namespace SimuladorForms
                     aircraft_vector[w].Location = new Point(posicionpicturex, posicionpicturey);
 
                 }
+                this.Pila.Push(this.vuelos);
                 this.manual = true;
 
             }
             catch (FormatException)
             {
                 MessageBox.Show("Datos introducidos incorrectos");
+            }
+        }
+
+        private void timer2_Tick(object sender, EventArgs e)
+        {
+            if (this.contador2 == 0)
+            {
+                this.vuelos[this.avion_escogido].SetRetardo(false);
+                timer2.Stop();
+            }
+            this.contador2 = 1;
+        }
+
+
+        // BOTON DE DESHACER
+        private void button4_Click(object sender, EventArgs e)
+        {
+            this.copia_vuelos = this.Pila.Pop();
+            for (int w = 0; w < lista.GetNum(); w++)
+            {
+
+                int posicionpicturex = (Convert.ToInt32(this.copia_vuelos[w].GetPosition_X()));
+                int posicionpicturey = (Convert.ToInt32(this.copia_vuelos[w].GetPosition_Y()));
+
+                vuelos[w].SetOrigen_X(this.copia_vuelos[w].GetPosition_X());
+                vuelos[w].SetOrigen_Y(this.copia_vuelos[w].GetPosition_Y());
+
+
+                aircraft_vector[w].Location = new Point(posicionpicturex, posicionpicturey);
+
             }
         }
     }

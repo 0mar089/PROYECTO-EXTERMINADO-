@@ -21,6 +21,7 @@ namespace Avion
         double origen_nocambiante_X;
         double origen_nocambiante_Y;
 
+        bool retardo;
         public CAvion(string id, string comp, double ox, double oy, double dx, double dy, double velocidad, double px, double py, double ocx, double ocy) // atributos en orden
         {
             this.identificador = id;
@@ -34,6 +35,7 @@ namespace Avion
             this.posición_y = py;
             this.origen_nocambiante_X = ocx;
             this.origen_nocambiante_Y = ocy;
+            this.retardo = false;
         }
 
         // SETTERS
@@ -82,6 +84,10 @@ namespace Avion
             this.posición_y = posicion_y;
         }
 
+        public void SetRetardo(bool retardo)
+        {
+            this.retardo = retardo;
+        }
         // GETTERS
 
         public string GetID()
@@ -137,6 +143,10 @@ namespace Avion
         public double GetOrigenNo_Y()
         {
             return this.origen_nocambiante_Y;
+        }
+        public bool GetRetardo()
+        {
+            return this.retardo;
         }
 
         public void ResetPosition()

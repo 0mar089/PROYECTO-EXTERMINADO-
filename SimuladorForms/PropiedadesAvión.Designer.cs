@@ -50,6 +50,9 @@
             label21 = new Label();
             label23 = new Label();
             label5A = new Label();
+            textBox1 = new TextBox();
+            button1 = new Button();
+            label18 = new Label();
             SuspendLayout();
             // 
             // label1
@@ -173,6 +176,7 @@
             label14.Size = new Size(73, 20);
             label14.TabIndex = 13;
             label14.Text = "Destino X";
+            label14.Click += label14_Click;
             // 
             // label15
             // 
@@ -245,11 +249,41 @@
             label5A.Text = "hghhg";
             label5A.Click += label22_Click;
             // 
+            // textBox1
+            // 
+            textBox1.Location = new Point(592, 280);
+            textBox1.Name = "textBox1";
+            textBox1.Size = new Size(139, 27);
+            textBox1.TabIndex = 27;
+            // 
+            // button1
+            // 
+            button1.Location = new Point(592, 323);
+            button1.Name = "button1";
+            button1.Size = new Size(139, 29);
+            button1.TabIndex = 28;
+            button1.Text = "Enviar";
+            button1.UseVisualStyleBackColor = true;
+            button1.Click += button1_Click;
+            // 
+            // label18
+            // 
+            label18.AutoSize = true;
+            label18.Location = new Point(560, 245);
+            label18.Name = "label18";
+            label18.Size = new Size(202, 20);
+            label18.TabIndex = 29;
+            label18.Text = "Retardo en minutos (enteros)";
+            label18.Click += label18_Click;
+            // 
             // PropiedadesAvión
             // 
             AutoScaleDimensions = new SizeF(8F, 20F);
             AutoScaleMode = AutoScaleMode.Font;
             ClientSize = new Size(800, 450);
+            Controls.Add(label18);
+            Controls.Add(button1);
+            Controls.Add(textBox1);
             Controls.Add(label23);
             Controls.Add(label5A);
             Controls.Add(label21);
@@ -303,5 +337,8 @@
         private Label label21;
         private Label label23;
         private Label label5A;
+        private TextBox textBox1;
+        private Button button1;
+        private Label label18;
     }
 }

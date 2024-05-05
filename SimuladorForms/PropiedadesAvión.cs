@@ -16,15 +16,16 @@ namespace SimuladorForms
     {
         CAvion[] vuelos;
         int tag;
+        FormularioPrincipal f1 = new FormularioPrincipal();
 
         public PropiedadesAvión()
         {
             InitializeComponent();
         }
 
-        public void SetVuelos(CAvion[] vuelos)
+        public void SetVuelos(CAvion[] lista_vuelos)
         {
-            this.vuelos = vuelos;
+            this.vuelos = lista_vuelos;
         }
 
         public void SetTag(int i)
@@ -35,7 +36,7 @@ namespace SimuladorForms
         // FUNCION PARA VER LOS DATOS DE 1 AVION
         private void Form2_Load(object sender, EventArgs e)
         {
-            FormularioPrincipal f1 = new FormularioPrincipal();
+
             int i = f1.Get_Tag();
 
 
@@ -69,6 +70,29 @@ namespace SimuladorForms
         private void label22_Click(object sender, EventArgs e)
         {
 
+        }
+
+        private void label14_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void label18_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void button1_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                int retraso = Convert.ToInt32(textBox1.Text);
+                f1.SetRetraso(retraso, this.tag);
+            }
+            catch (FormatException)
+            {
+                MessageBox.Show("Datos introducidos incorrectos");
+            }
         }
     }
 }

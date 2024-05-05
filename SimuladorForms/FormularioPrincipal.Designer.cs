@@ -46,6 +46,8 @@
             button3 = new Button();
             textBox2 = new TextBox();
             label2 = new Label();
+            timer2 = new System.Windows.Forms.Timer(components);
+            button4 = new Button();
             menuStrip1.SuspendLayout();
             SuspendLayout();
             // 
@@ -137,9 +139,9 @@
             // 
             // button2
             // 
-            button2.Location = new Point(891, 397);
+            button2.Location = new Point(903, 347);
             button2.Name = "button2";
-            button2.Size = new Size(137, 48);
+            button2.Size = new Size(125, 39);
             button2.TabIndex = 5;
             button2.Text = "REINICIAR";
             button2.UseVisualStyleBackColor = true;
@@ -171,11 +173,26 @@
             label2.TabIndex = 8;
             label2.Text = "Ciclos";
             // 
+            // timer2
+            // 
+            timer2.Tick += timer2_Tick;
+            // 
+            // button4
+            // 
+            button4.Location = new Point(903, 430);
+            button4.Name = "button4";
+            button4.Size = new Size(125, 37);
+            button4.TabIndex = 9;
+            button4.Text = "DESHACER";
+            button4.UseVisualStyleBackColor = true;
+            button4.Click += button4_Click;
+            // 
             // FormularioPrincipal
             // 
             AutoScaleDimensions = new SizeF(8F, 20F);
             AutoScaleMode = AutoScaleMode.Font;
             ClientSize = new Size(1130, 523);
+            Controls.Add(button4);
             Controls.Add(label2);
             Controls.Add(textBox2);
             Controls.Add(button3);
@@ -213,5 +230,7 @@
         private Button button3;
         private TextBox textBox2;
         private Label label2;
+        private System.Windows.Forms.Timer timer2;
+        private Button button4;
     }
 }
