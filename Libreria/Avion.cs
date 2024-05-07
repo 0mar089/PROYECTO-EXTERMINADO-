@@ -38,6 +38,11 @@ namespace Avion
             this.retardo = false;
         }
 
+        public CAvion()
+        {
+
+        }
+
         // SETTERS
         public void SetID(string identificador)
         {

@@ -35,7 +35,7 @@ namespace SimuladorForms
         int avion_escogido;
         bool verif_sector;
         Stack<CAvion[]> Pila = new Stack<CAvion[]>();
-        CAvion[] copia_vuelos = new CAvion[100];
+        
 
 
         public FormularioPrincipal()
@@ -316,8 +316,7 @@ namespace SimuladorForms
 
             if (this.manual == false)
             {
-                this.copia_vuelos = this.vuelos;
-                this.Pila.Push(this.copia_vuelos);
+
                 for (int w = 0; w < lista.GetNum(); w++)
                 {
 
@@ -361,37 +360,29 @@ namespace SimuladorForms
 
         }
 
-        // FUNCION DE RESET AVIONES Y SECTOR
-        private void button2_Click(object sender, EventArgs e)
-        {
-
-            if (this.verif_cargar == true)
-            {
-                for (int i = 0; i < lista.GetNum(); i++)
-                {
-                    this.vuelos[i].ResetPosition();
-                    this.vuelos[i].SetOrigen_X(this.vuelos[i].GetOrigenNo_X());
-                    this.vuelos[i].SetOrigen_Y(this.vuelos[i].GetOrigenNo_Y());
-                    aircraft_vector[i].Location = new Point(Convert.ToInt32(this.vuelos[i].GetOrigenNo_X()), Convert.ToInt32(this.vuelos[i].GetOrigenNo_Y()));
-                    panel1.Invalidate();
-                }
-            }
-            else
-            {
-                MessageBox.Show("No reinicies si no tienes nada cargado");
-            }
-
-        }
+        
 
         // SIMULACIÓN MANUAL
         private void button3_Click(object sender, EventArgs e)
         {
             try
             {
+                CAvion[] copia_vuelos = new CAvion[100];
+                for (int i = 0; i<lista.GetNum(); i++)
+                {
+                    copia_vuelos[i] = new CAvion();
 
+                    copia_vuelos[i].SetPosition_Y(this.vuelos[i].GetPosition_Y());
+                    copia_vuelos[i].SetPosition_X(this.vuelos[i].GetPosition_X());
+
+                    copia_vuelos[i].SetOrigen_X(this.vuelos[i].GetOrigen_X());
+                    copia_vuelos[i].SetOrigen_Y(this.vuelos[i].GetOrigen_Y());
+
+                }
+
+                this.Pila.Push(copia_vuelos);
 
                 
-
                 this.tiempo = Convert.ToDouble(textBox1.Text);
                 lista.Calculo(this.tiempo);
                 for (int w = 0; w < lista.GetNum(); w++)
@@ -407,7 +398,7 @@ namespace SimuladorForms
                     aircraft_vector[w].Location = new Point(posicionpicturex, posicionpicturey);
 
                 }
-                this.Pila.Push(this.vuelos);
+
                 this.manual = true;
 
             }
@@ -431,20 +422,46 @@ namespace SimuladorForms
         // BOTON DE DESHACER
         private void button4_Click(object sender, EventArgs e)
         {
-            this.copia_vuelos = this.Pila.Pop();
+
+            CAvion[] copia_vuelos = this.Pila.Pop();
             for (int w = 0; w < lista.GetNum(); w++)
             {
 
-                int posicionpicturex = (Convert.ToInt32(this.copia_vuelos[w].GetPosition_X()));
-                int posicionpicturey = (Convert.ToInt32(this.copia_vuelos[w].GetPosition_Y()));
+                int posicionpicturex = (Convert.ToInt32(copia_vuelos[w].GetPosition_X()));
+                int posicionpicturey = (Convert.ToInt32(copia_vuelos[w].GetPosition_Y()));
 
-                vuelos[w].SetOrigen_X(this.copia_vuelos[w].GetPosition_X());
-                vuelos[w].SetOrigen_Y(this.copia_vuelos[w].GetPosition_Y());
+                vuelos[w].SetOrigen_X(copia_vuelos[w].GetPosition_X());
+                vuelos[w].SetOrigen_Y(copia_vuelos[w].GetPosition_Y());
 
 
                 aircraft_vector[w].Location = new Point(posicionpicturex, posicionpicturey);
 
             }
+        }
+
+
+
+
+        // FUNCION DE RESET AVIONES Y SECTOR
+        private void button2_Click(object sender, EventArgs e)
+        {
+
+            if (this.verif_cargar == true)
+            {
+                for (int i = 0; i < lista.GetNum(); i++)
+                {
+                    this.vuelos[i].ResetPosition();
+                    this.vuelos[i].SetOrigen_X(this.vuelos[i].GetOrigenNo_X());
+                    this.vuelos[i].SetOrigen_Y(this.vuelos[i].GetOrigenNo_Y());
+                    aircraft_vector[i].Location = new Point(Convert.ToInt32(this.vuelos[i].GetOrigenNo_X()), Convert.ToInt32(this.vuelos[i].GetOrigenNo_Y()));
+                    panel1.Invalidate();
+                }
+            }
+            else
+            {
+                MessageBox.Show("No reinicies si no tienes nada cargado");
+            }
+
         }
     }
 }
