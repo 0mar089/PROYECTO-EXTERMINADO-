@@ -57,6 +57,7 @@ namespace SimuladorForms
             this.vuelos[tag].SetRetardo(true);
             this.avion_escogido = tag;
         }
+
         // FUNCION PARA CARGAR LAS IMAGENES DE LOS AVIONES
         public void CargarAviones()
         {
@@ -119,8 +120,9 @@ namespace SimuladorForms
                 {
                     MessageBox.Show("Fichero Cargado");
                     this.verif_cargar = true;
-                    this.verificar = -1;
+                    this.verificar = 1;
                     CargarAviones();
+                    panel1.Invalidate();
                 }
             }
         }
@@ -211,7 +213,6 @@ namespace SimuladorForms
                 else
                 {
                     MessageBox.Show("Fichero Cargado");
-                    this.verificar = 1;
                     this.verif_sector = true;
                     //this.Vertices.Add(new Point(Convert.ToInt32(Sector.Get_Posrec_x()), Convert.ToInt32(Sector.Get_Posrec_y())));
                     //this.Vertices.Add(new Point(Convert.ToInt32(Sector.Get_Posrec_x()), Convert.ToInt32(Sector.Get_Posrec_y()) + Convert.ToInt32(Sector.Get_Altorec())));
@@ -230,14 +231,8 @@ namespace SimuladorForms
             if (this.verif_sector == true)
             {
                 System.Drawing.Graphics graphics = e.Graphics;
+                
                 if (this.verificar == 1)
-                {
-
-                    Pen myPen = new Pen(Color.Green, 4);
-                    graphics.DrawPolygon(myPen, this.Vertices.ToArray());
-                    //myPen.Dispose();
-                }
-                else if (this.verificar == -1)
                 {
                     if (Sector.CalculoSector(this.lista, this.Sector) > 33.33 && Sector.CalculoSector(this.lista, this.Sector) < 66.66)
                     {
@@ -257,6 +252,13 @@ namespace SimuladorForms
                         graphics.DrawPolygon(myPen, this.Vertices.ToArray());
                         myPen.Dispose();
                     }
+                }
+                else
+                {
+
+                    Pen myPen = new Pen(Color.Green, 4);
+                    graphics.DrawPolygon(myPen, this.Vertices.ToArray());
+                    myPen.Dispose();
                 }
             }
         }
@@ -406,6 +408,7 @@ namespace SimuladorForms
             {
                 MessageBox.Show("Datos introducidos incorrectos");
             }
+            panel1.Invalidate();
         }
 
         private void timer2_Tick(object sender, EventArgs e)
@@ -422,21 +425,28 @@ namespace SimuladorForms
         // BOTON DE DESHACER
         private void button4_Click(object sender, EventArgs e)
         {
-
-            CAvion[] copia_vuelos = this.Pila.Pop();
-            for (int w = 0; w < lista.GetNum(); w++)
+            if (this.Pila.Count() > 0)
             {
+                CAvion[] copia_vuelos = this.Pila.Pop();
+                for (int w = 0; w < lista.GetNum(); w++)
+                {
 
-                int posicionpicturex = (Convert.ToInt32(copia_vuelos[w].GetPosition_X()));
-                int posicionpicturey = (Convert.ToInt32(copia_vuelos[w].GetPosition_Y()));
+                    int posicionpicturex = (Convert.ToInt32(copia_vuelos[w].GetPosition_X()));
+                    int posicionpicturey = (Convert.ToInt32(copia_vuelos[w].GetPosition_Y()));
 
-                vuelos[w].SetOrigen_X(copia_vuelos[w].GetPosition_X());
-                vuelos[w].SetOrigen_Y(copia_vuelos[w].GetPosition_Y());
+                    vuelos[w].SetOrigen_X(copia_vuelos[w].GetPosition_X());
+                    vuelos[w].SetOrigen_Y(copia_vuelos[w].GetPosition_Y());
 
 
-                aircraft_vector[w].Location = new Point(posicionpicturex, posicionpicturey);
+                    aircraft_vector[w].Location = new Point(posicionpicturex, posicionpicturey);
 
+                }
             }
+            else
+            {
+                MessageBox.Show("No puedes retroceder mas");    
+            }
+            
         }
 
 
