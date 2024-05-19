@@ -9,7 +9,14 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\GestionBaseDatos\GestionBaseDatos.csproj" />
     <ProjectReference Include="..\Libreria\Libreria.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Reference Include="System.Data.SQLite">
+      <HintPath>..\BaseDatos\System.Data.SQLite.dll</HintPath>
+    </Reference>
   </ItemGroup>
 
 </Project>

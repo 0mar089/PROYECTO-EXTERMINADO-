@@ -7,9 +7,12 @@ using System.Threading.Tasks;
 using ListaDeVuelos;
 using Avion;
 using Sector;
+using GestionBaseDatos;
 using System.Collections;
 using System.Runtime.CompilerServices;
 using System.Drawing;
+using System.Data;
+using System.Data.SQLite;
 
 
 namespace SimuladorForms
@@ -42,7 +45,9 @@ namespace SimuladorForms
         {
             InitializeComponent();
             //ResetListaAviones();
-
+            BaseDatos db = new BaseDatos();
+            db.OpenDB();
+            DataTable dt = db.GetCompañias();
             this.vuelos = lista.GetLista();
         }
 
