@@ -13,8 +13,14 @@ namespace Sector
     {
         string identificador_sector;
         int capacidad_max;
-        double posicion_rectangulo_x, posicion_rectangulo_y, ancho_rectangulo, alto_rectangulo;
+        List<Point> Vertices = new List<Point>();
+
         // Setters
+
+        public void SetPoint(Point p)
+        {
+            this.Vertices.Add(p);
+        }
         public void Set_ID(string ID_recibida)
         {
             this.identificador_sector = ID_recibida;
@@ -23,23 +29,14 @@ namespace Sector
         {
             this.capacidad_max = Capmax_recibida;
         }
-        public void Set_Posrec_x(double posrecx_recibida)
-        {
-            this.posicion_rectangulo_x = posrecx_recibida;
-        }
-        public void Set_Posrec_y(double posrecy_recibida)
-        {
-            this.posicion_rectangulo_y = posrecy_recibida;
-        }
-        public void Set_Anchorec(double achorec_recibido)
-        {
-            this.ancho_rectangulo = achorec_recibido;
-        }
-        public void Set_Altorec(double altorec_recibido)
-        {
-            this.alto_rectangulo = altorec_recibido;
-        }
+
+
         // Getters
+
+        public List<Point> GetList()
+        {
+            return this.Vertices;
+        }
         public string Get_ID()
         {
             return this.identificador_sector;
@@ -48,22 +45,7 @@ namespace Sector
         {
             return this.capacidad_max;
         }
-        public double Get_Posrec_x()
-        {
-            return this.posicion_rectangulo_x;
-        }
-        public double Get_Posrec_y()
-        {
-            return this.posicion_rectangulo_y;
-        }
-        public double Get_Anchorec()
-        {
-            return this.ancho_rectangulo;
-        }
-        public double Get_Altorec()
-        {
-            return this.alto_rectangulo;
-        }
+
         // FUNCIÓN QUE CARGA LA LISTA DE DATOS DEL SECTOR DEL FICHERO
         public int CargarSector(string nombre_fichero)
         {
@@ -75,12 +57,20 @@ namespace Sector
                 {
                     string[] trozos = linea.Split(" , ");
                     this.Set_ID(trozos[0]);
-                    
                     this.Set_Capmax(Convert.ToInt32(trozos[1]));
-                    this.Set_Posrec_x(Convert.ToDouble(trozos[2]));
-                    this.Set_Posrec_y(Convert.ToDouble(trozos[3]));
-                    this.Set_Anchorec(Convert.ToDouble(trozos[4]));
-                    this.Set_Altorec(Convert.ToDouble(trozos[5]));
+
+                    
+
+                    for(int i = 3; i<trozos.Length; i+=2)
+                    {
+                        Point p = new Point();
+
+                        p.X = Convert.ToInt32(trozos[i - 1]);
+                        p.Y = Convert.ToInt32(trozos[i]);
+
+                        this.Vertices.Add(p);
+                    }
+
                     linea = fichero.ReadLine();
                 }
                 fichero.Close();
@@ -97,24 +87,33 @@ namespace Sector
 
         }
 
-        // FUNCIÓN QUE CALCULA EL PORCENTAJE DE AVIONES EN EL SECTOR
-        public double CalculoSector(CListaDeVuelos lista, CSector sector)
-        {
 
-            double porcentaje;
+
+        // FUNCION QUE TE CALCULA SI LA POSICION DEL AVION ESTA DENTRO DEL POLIGONO Y TE DEVUELVE EL PORCENTAJE
+        public double EstaDentro(CListaDeVuelos lista)
+        {
+            int i, j, k = 0;
+            bool c = false;
             double contador = 0;
             CAvion[] vuelos = lista.GetLista();
-            for (int i = 0; i < lista.GetNum(); i++)
+            for (i = 0, j = this.Vertices.Count - 1; i < this.Vertices.Count; j = i++)
             {
-                if ((sector.Get_Posrec_x() < vuelos[i].GetPosition_X() && vuelos[i].GetPosition_X() < sector.Get_Posrec_x() + sector.Get_Anchorec()) && (sector.Get_Posrec_y() < vuelos[i].GetPosition_Y() && vuelos[i].GetPosition_Y() < sector.Get_Posrec_y() + sector.Get_Anchorec()))
+                if (((this.Vertices[i].Y > vuelos[k].GetPosition_Y()) != (this.Vertices[j].Y > vuelos[k].GetPosition_Y())) &&
+                 (vuelos[k].GetPosition_X() < (this.Vertices[j].X - this.Vertices[i].X) * (vuelos[k].GetPosition_Y() - this.Vertices[i].Y) / (this.Vertices[j].Y - this.Vertices[i].Y) + this.Vertices[i].X))
+                {
+                    c = true;
+                }
+                if(c == true)
                 {
                     contador++;
                 }
+                    
             }
-            porcentaje = (contador / sector.Get_Capmax()) * 100;
-            return porcentaje;
-
+            return (contador * 100 / lista.GetNum());
         }
+
+
+
         // FUNCIÓN QUE IMPRIME LA INFORMACIÓN DEL SECTOR
         public void Imprimir_Menú_Sector()
         {

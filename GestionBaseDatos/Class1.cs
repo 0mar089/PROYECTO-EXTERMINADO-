@@ -1,10 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Data;
+using System.Data.SQLite;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using System.Data;
-using System.Data.SQLite;
+
 
 namespace GestionBaseDatos
 {
@@ -14,7 +15,7 @@ namespace GestionBaseDatos
 
         public void OpenDB()
         {
-            string dataSource = "Data Source=C:\\Users\\omarb\\OneDrive\\Documents\\UNIVERSIDAD\\1 AÑO\\2 quatrimestre\\PP\\PROGRAMACIÓN\\PROYECTO-PP\\BaseDatos\\basedatos.db";
+            string dataSource = "Data Source=..\\..\\..\\..\\BaseDatos\\basedatos.db";
             this.cnx = new SQLiteConnection(dataSource);
             this.cnx.Open();
         }

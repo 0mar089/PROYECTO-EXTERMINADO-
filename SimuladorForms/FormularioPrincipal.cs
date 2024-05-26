@@ -12,7 +12,6 @@ using System.Collections;
 using System.Runtime.CompilerServices;
 using System.Drawing;
 using System.Data;
-using System.Data.SQLite;
 
 
 namespace SimuladorForms
@@ -32,28 +31,30 @@ namespace SimuladorForms
         bool verif_cargar = false;
         string filename;
         bool manual;
-        List<Point> Vertices = new List<Point>();
         int retraso;
         int contador2;
         int avion_escogido;
         bool verif_sector;
+        List<Point> Vertices;
         Stack<CAvion[]> Pila = new Stack<CAvion[]>();
-        
+
 
 
         public FormularioPrincipal()
         {
             InitializeComponent();
             //ResetListaAviones();
-            BaseDatos db = new BaseDatos();
-            db.OpenDB();
-            DataTable dt = db.GetCompañias();
+            //BaseDatos db = new BaseDatos();
+            //db.OpenDB();
+            //DataTable dt = db.GetCompañias();
             this.vuelos = lista.GetLista();
         }
 
         private void Form1_Load(object sender, EventArgs e)
         {
-
+            //BaseDatos db = new BaseDatos();
+            //db.OpenDB();
+            //DataTable dt = db.GetCompañias();
         }
 
         public void SetRetraso(int retraso, int tag)
@@ -175,24 +176,6 @@ namespace SimuladorForms
 
         }
 
-
-        private List<Point> CalcularVertices()
-        {
-
-            int x = Convert.ToInt32(Sector.Get_Posrec_x());
-            int y = Convert.ToInt32(Sector.Get_Posrec_y());
-            int width = Convert.ToInt32(Sector.Get_Anchorec());
-            int height = Convert.ToInt32(Sector.Get_Altorec());
-
-
-            this.Vertices.Add(new Point(x, y));
-            this.Vertices.Add(new Point(x, y + height));
-            this.Vertices.Add(new Point(x + width, y + height));
-            this.Vertices.Add(new Point(x + width, y));
-
-            return this.Vertices;
-        }
-
         // FUNCION PARA CARGAR EL SECTOR
         private void cargarSectorToolStripMenuItem_Click(object sender, EventArgs e)
         {
@@ -223,7 +206,10 @@ namespace SimuladorForms
                     //this.Vertices.Add(new Point(Convert.ToInt32(Sector.Get_Posrec_x()), Convert.ToInt32(Sector.Get_Posrec_y()) + Convert.ToInt32(Sector.Get_Altorec())));
                     //this.Vertices.Add(new Point(Convert.ToInt32(Sector.Get_Posrec_x()) + Convert.ToInt32(Sector.Get_Anchorec()), Convert.ToInt32(Sector.Get_Posrec_y()) + Convert.ToInt32(Sector.Get_Altorec())));
                     //this.Vertices.Add(new Point(Convert.ToInt32(Sector.Get_Posrec_x()) + Convert.ToInt32(Sector.Get_Anchorec()), Convert.ToInt32(Sector.Get_Posrec_y())));
-                    this.Vertices = CalcularVertices();
+                    this.Vertices = this.Sector.CalcularVertices();
+                    label3.Text = "Identificador: " + this.Sector.Get_ID();
+                    label4.Text = "Capacidad: " + this.Sector.Get_Capmax();
+
                     panel1.Invalidate();
                 }
             }
@@ -236,16 +222,16 @@ namespace SimuladorForms
             if (this.verif_sector == true)
             {
                 System.Drawing.Graphics graphics = e.Graphics;
-                
+
                 if (this.verificar == 1)
                 {
-                    if (Sector.CalculoSector(this.lista, this.Sector) > 33.33 && Sector.CalculoSector(this.lista, this.Sector) < 66.66)
+                    if (Sector.CalculoSector(this.lista) > 33.33 && Sector.CalculoSector(this.lista) < 66.66)
                     {
                         Pen myPen = new Pen(Color.Yellow, 4);
                         graphics.DrawPolygon(myPen, this.Vertices.ToArray());
                         myPen.Dispose();
                     }
-                    else if (Sector.CalculoSector(this.lista, this.Sector) >= 66.66)
+                    else if (Sector.CalculoSector(this.lista) >= 66.66)
                     {
                         Pen myPen = new Pen(Color.Red, 4);
                         graphics.DrawPolygon(myPen, this.Vertices.ToArray());
@@ -367,7 +353,7 @@ namespace SimuladorForms
 
         }
 
-        
+
 
         // SIMULACIÓN MANUAL
         private void button3_Click(object sender, EventArgs e)
@@ -375,7 +361,7 @@ namespace SimuladorForms
             try
             {
                 CAvion[] copia_vuelos = new CAvion[100];
-                for (int i = 0; i<lista.GetNum(); i++)
+                for (int i = 0; i < lista.GetNum(); i++)
                 {
                     copia_vuelos[i] = new CAvion();
 
@@ -389,7 +375,7 @@ namespace SimuladorForms
 
                 this.Pila.Push(copia_vuelos);
 
-                
+
                 this.tiempo = Convert.ToDouble(textBox1.Text);
                 lista.Calculo(this.tiempo);
                 for (int w = 0; w < lista.GetNum(); w++)
@@ -449,9 +435,9 @@ namespace SimuladorForms
             }
             else
             {
-                MessageBox.Show("No puedes retroceder mas");    
+                MessageBox.Show("No puedes retroceder mas");
             }
-            
+
         }
 
 
@@ -476,6 +462,11 @@ namespace SimuladorForms
             {
                 MessageBox.Show("No reinicies si no tienes nada cargado");
             }
+
+        }
+
+        private void label3_Click(object sender, EventArgs e)
+        {
 
         }
     }

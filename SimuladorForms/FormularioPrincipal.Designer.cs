@@ -37,6 +37,7 @@
             cargarSectorToolStripMenuItem = new ToolStripMenuItem();
             listarVuelosToolStripMenuItem = new ToolStripMenuItem();
             panel1 = new Panel();
+            label3 = new Label();
             saveFileDialog1 = new SaveFileDialog();
             button1 = new Button();
             textBox1 = new TextBox();
@@ -48,7 +49,9 @@
             label2 = new Label();
             timer2 = new System.Windows.Forms.Timer(components);
             button4 = new Button();
+            label4 = new Label();
             menuStrip1.SuspendLayout();
+            panel1.SuspendLayout();
             SuspendLayout();
             // 
             // menuStrip1
@@ -100,11 +103,23 @@
             // 
             // panel1
             // 
+            panel1.Controls.Add(label4);
+            panel1.Controls.Add(label3);
             panel1.Location = new Point(12, 33);
             panel1.Name = "panel1";
             panel1.Size = new Size(811, 444);
             panel1.TabIndex = 1;
             panel1.Paint += panel1_Paint;
+            // 
+            // label3
+            // 
+            label3.AutoSize = true;
+            label3.Location = new Point(684, 333);
+            label3.Name = "label3";
+            label3.Size = new Size(97, 20);
+            label3.TabIndex = 0;
+            label3.Text = "Identificador:";
+            label3.Click += label3_Click;
             // 
             // button1
             // 
@@ -187,6 +202,15 @@
             button4.UseVisualStyleBackColor = true;
             button4.Click += button4_Click;
             // 
+            // label4
+            // 
+            label4.AutoSize = true;
+            label4.Location = new Point(684, 367);
+            label4.Name = "label4";
+            label4.Size = new Size(87, 20);
+            label4.TabIndex = 1;
+            label4.Text = "Capacidad: ";
+            // 
             // FormularioPrincipal
             // 
             AutoScaleDimensions = new SizeF(8F, 20F);
@@ -207,6 +231,8 @@
             Load += Form1_Load;
             menuStrip1.ResumeLayout(false);
             menuStrip1.PerformLayout();
+            panel1.ResumeLayout(false);
+            panel1.PerformLayout();
             ResumeLayout(false);
             PerformLayout();
         }
@@ -232,5 +258,7 @@
         private Label label2;
         private System.Windows.Forms.Timer timer2;
         private Button button4;
+        private Label label3;
+        private Label label4;
     }
 }
